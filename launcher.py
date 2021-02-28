@@ -1,28 +1,14 @@
 import time
-from apscheduler.schedulers.background import BackgroundScheduler
-sched = BackgroundScheduler()
+from app.run import run
 
 
-def job1():
-    print(f'  job1 : 2 초 마다 실행  {time.strftime("%H:%M:%S")}')
+if __name__ == '__main__':
+    while True:
+        try:
+            print(f'Scheduling Start {time.strftime("%H:%M:%S")}')
+            run()
+            print(f'Scheduling done  {time.strftime("%H:%M:%S")}')
+        except KeyboardInterrupt:
+            print("Abort !!")
 
-
-def job2():
-    print(f'  job2 : 3 초 마다 실행  {time.strftime("%H:%M:%S")}')
-
-
-def job3():
-    print(f'  job3 : 5 초 마다 실행  {time.strftime("%H:%M:%S")}')
-
-
-sched.add_job(job1, 'cron', second='*/2', id="test_1")
-sched.add_job(job2, 'cron', second='*/3', id="test_2")
-sched.add_job(job3, 'cron', second='*/5', id="test_3")
-
-
-print(f'Scheduling Start {time.strftime("%H:%M:%S")}')
-sched.start()
-print(f'Scheduling done  {time.strftime("%H:%M:%S")}')
-
-while True:
-    time.sleep(1)
+        time.sleep(1000)
