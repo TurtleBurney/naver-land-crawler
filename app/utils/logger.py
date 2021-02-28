@@ -8,3 +8,4 @@ def init_logger():
         format="%(message)s", stream=sys.stdout, level=logging.INFO)
     structlog.configure(
         logger_factory=structlog.stdlib.LoggerFactory())
+    logging.getLogger('apscheduler.executors.default').propagate = False
