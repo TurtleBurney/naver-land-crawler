@@ -1,14 +1,22 @@
 import time
+import structlog
 from app.run import run
+from app.utils.logger import init_logger
+
+
+logger = structlog.get_logger()
 
 
 if __name__ == '__main__':
+    init_logger()
+    logger.info(f'Scheduling Start {time.strftime("%H:%M:%S")}')
+
     while True:
         try:
-            print(f'Scheduling Start {time.strftime("%H:%M:%S")}')
             run()
-            print(f'Scheduling done  {time.strftime("%H:%M:%S")}')
+            time.sleep(1000)
         except KeyboardInterrupt:
-            print("Abort !!")
+            logger.warn("Abort !!")
+            break
 
-        time.sleep(1000)
+    logger.info(f'Scheduling done  {time.strftime("%H:%M:%S")}')

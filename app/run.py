@@ -1,6 +1,10 @@
 import time
+import structlog
 from apscheduler.schedulers.background import BackgroundScheduler
+
+
 sched = BackgroundScheduler()
+logger = structlog.get_logger()
 
 
 def run():
@@ -11,12 +15,13 @@ def run():
 
 
 def job1():
-    print(f'  job1 : 2 초 마다 실행  {time.strftime("%H:%M:%S")}')
+    print('hio')
+    # logger.info(f'  job1 : 2 초 마다 실행  {time.strftime("%H:%M:%S")}')
 
 
 def job2():
-    print(f'  job2 : 3 초 마다 실행  {time.strftime("%H:%M:%S")}')
+    logger.info(f'  job2 : 3 초 마다 실행  {time.strftime("%H:%M:%S")}')
 
 
 def job3():
-    print(f'  job3 : 5 초 마다 실행  {time.strftime("%H:%M:%S")}')
+    logger.info(f'  job3 : 5 초 마다 실행  {time.strftime("%H:%M:%S")}')
