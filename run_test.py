@@ -10,14 +10,16 @@ from dataclasses import dataclass
 # 데이터 클래스 설정
 general_data = []
 specific_data = []
+
+
 @dataclass
 class Building:
-    building_name : str
-    building_type : str
+    building_name: str
+    building_type: str
     # contract_type : str
-    trading_num : int
-    tenant_num : int
-    wolse_num : int
+    trading_num: int
+    tenant_num: int
+    wolse_num: int
     # building_dong : str
     # exclusive_area : float
     # shared_area : float
@@ -27,41 +29,69 @@ class Building:
     # trading_price_min : int
     # trading_price_max : int
 
+
 path = "C:/Users/krims/Downloads/chromedriver.exe"
-url = 'https://m.land.naver.com/'
+url = "https://m.land.naver.com/"
 
 driver = webdriver.Chrome(path)
-driver.get(url) # 연다
+driver.get(url)  # 연다
 
-apt_btn = driver.find_element_by_class_name('home_main_button.first_line._rletTypeBtn._innerLink')
+apt_btn = driver.find_element_by_class_name(
+    "home_main_button.first_line._rletTypeBtn._innerLink"
+)
 apt_btn.click()
 
 # 주소 변경 탭 활성화
-WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//*[@id='mapSearch']/div[2]/div[3]/div/div[2]/div[1]/a"))).click()
+WebDriverWait(driver, 20).until(
+    EC.element_to_be_clickable(
+        (By.XPATH, "//*[@id='mapSearch']/div[2]/div[3]/div/div[2]/div[1]/a")
+    )
+).click()
 # 주소 입력(시, 구, 동)
-WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//*[@id='mapSearch']/div[2]/div[1]/section/div[1]/div[1]/div[2]/div/div/table/tbody/tr[1]/td[1]/a"))).click()
-WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//*[@id='mapSearch']/div[2]/div[1]/section/div[1]/div[2]/div[2]/div/div/table/tbody/tr[5]/td[2]/a"))).click()
-WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//*[@id='mapSearch']/div[2]/div[1]/section/div[1]/div[3]/div[2]/div/div/table/tbody/tr[3]/td[2]/a"))).click()
+WebDriverWait(driver, 20).until(
+    EC.element_to_be_clickable(
+        (
+            By.XPATH,
+            "//*[@id='mapSearch']/div[2]/div[1]/section/div[1]/div[1]/div[2]/div/div/table/tbody/tr[1]/td[1]/a",
+        )
+    )
+).click()
+WebDriverWait(driver, 20).until(
+    EC.element_to_be_clickable(
+        (
+            By.XPATH,
+            "//*[@id='mapSearch']/div[2]/div[1]/section/div[1]/div[2]/div[2]/div/div/table/tbody/tr[5]/td[2]/a",
+        )
+    )
+).click()
+WebDriverWait(driver, 20).until(
+    EC.element_to_be_clickable(
+        (
+            By.XPATH,
+            "//*[@id='mapSearch']/div[2]/div[1]/section/div[1]/div[3]/div[2]/div/div/table/tbody/tr[3]/td[2]/a",
+        )
+    )
+).click()
 driver.implicitly_wait(20)
 
 ahyun = []
 # 북아현동 아파트, 오피스텔 개괄적인 정보 저장
-for i, item in enumerate(driver.find_elements(By.CLASS_NAME, 'result_item')):
+for i, item in enumerate(driver.find_elements(By.CLASS_NAME, "result_item")):
     info = item.text.split()
     ahyun.append(info)
 
 # 이름, 종류(오피스텔, 아파트) 추출(수정해야함)
 for i in range(len(ahyun)):
-    type_mm = ahyun[i][1].split('매매')
-    js_ws_tmp = ahyun[i][2].split('전세')
-    js_ws = js_ws_tmp[1].split('월세')
+    type_mm = ahyun[i][1].split("매매")
+    js_ws_tmp = ahyun[i][2].split("전세")
+    js_ws = js_ws_tmp[1].split("월세")
     b = Building(
-        building_name= ahyun[i][0],
+        building_name=ahyun[i][0],
         building_type=type_mm[0],
         # contract_type=,
-        trading_num= type_mm[1],
-        tenant_num= js_ws[0],
-        wolse_num= js_ws[1],
+        trading_num=type_mm[1],
+        tenant_num=js_ws[0],
+        wolse_num=js_ws[1],
         # building_dong=,
         # exclusive_area=,
         # shared_area=,
