@@ -9,7 +9,7 @@ sched = BackgroundScheduler()
 logger = structlog.get_logger()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     init_logger()
     logger.info(f'Scheduling Start {time.strftime("%H:%M:%S")}')
     sched.start()
