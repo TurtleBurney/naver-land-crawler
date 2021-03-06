@@ -1,13 +1,15 @@
-from bs4 import BeautifulSoup
-import urllib.request
-from selenium import webdriver
+import re
 import time
-from selenium.webdriver.support.ui import WebDriverWait
+import urllib.request
+
+from bs4 import BeautifulSoup
+from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
+
 from config import CHROME_DRIVER_PATH
 from model.buildings import Building
-import re
 
 
 def click_javascript_void(xpath):
