@@ -5,9 +5,9 @@ logger = structlog.get_logger()
 
 
 def run(scheduler):
-    scheduler.add_job(job1, 'cron', second='*/6', id='test_1')
-    scheduler.add_job(job2, 'cron', second='*/12', id="test_2")
-    scheduler.add_job(job3, 'cron', second='*/15', id="test_3")
+    scheduler.add_job(job1, "cron", second="*/6", id="test_1")
+    scheduler.add_job(job2, "cron", second="*/12", id="test_2")
+    scheduler.add_job(job3, "cron", second="*/15", id="test_3")
 
 
 def job1():
