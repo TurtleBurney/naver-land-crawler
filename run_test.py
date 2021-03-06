@@ -6,6 +6,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from dataclasses import dataclass
+from config import CHROME_DRIVER_PATH
 
 # 데이터 클래스 설정
 general_data = []
@@ -30,10 +31,9 @@ class Building:
     # trading_price_max : int
 
 
-path = "C:/Users/krims/Downloads/chromedriver.exe"
 url = "https://m.land.naver.com/"
 
-driver = webdriver.Chrome(path)
+driver = webdriver.Chrome(CHROME_DRIVER_PATH)
 driver.get(url)  # 연다
 
 apt_btn = driver.find_element_by_class_name(

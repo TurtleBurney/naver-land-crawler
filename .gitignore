@@ -130,3 +130,5 @@ dmypy.json
 
 activate.bat
 deactivate.bat
+
+config.py
