@@ -7,6 +7,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from config import CHROME_DRIVER_PATH
 from model.buildings import Building
+import re
 
 
 def click_javascript_void(xpath):
@@ -50,16 +51,15 @@ for i, item in enumerate(driver.find_elements(By.CLASS_NAME, "result_item")):
 
 # 이름, 종류(오피스텔, 아파트) 추출(수정해야함)
 for i in range(len(ahyun)):
-    type_mm = ahyun[i][1].split("매매")
-    js_ws_tmp = ahyun[i][2].split("전세")
-    js_ws = js_ws_tmp[1].split("월세")
+    type_trading = ahyun[i][1].split("매매")
+    tenant_wolse = re.split("전세 | 월세", ahyun[i][2])[1:]
     b = Building(
         building_name=ahyun[i][0],
-        building_type=type_mm[0],
+        building_type=type_trading[0],
         # contract_type=,
-        trading_num=type_mm[1],
-        tenant_num=js_ws[0],
-        wolse_num=js_ws[1],
+        trading_num=type_trading[1],
+        tenant_num=tenant_wolse[0],
+        wolse_num=tenant_wolse[1],
         # building_dong=,
         # exclusive_area=,
         # shared_area=,
