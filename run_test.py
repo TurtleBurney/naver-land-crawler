@@ -8,7 +8,13 @@ from selenium.webdriver.support import expected_conditions as EC
 from config import CHROME_DRIVER_PATH
 from model.buildings import Building
 
-# 데이터 클래스 설정
+
+def click_javascript_void(xpath):
+    WebDriverWait(driver, 20).until(
+        EC.element_to_be_clickable((By.XPATH, "{0}".format(xpath)))
+    ).click()
+
+
 general_data = []
 specific_data = []
 
@@ -23,36 +29,17 @@ apt_btn = driver.find_element_by_class_name(
 apt_btn.click()
 
 # 주소 변경 탭 활성화
-WebDriverWait(driver, 20).until(
-    EC.element_to_be_clickable(
-        (By.XPATH, "//*[@id='mapSearch']/div[2]/div[3]/div/div[2]/div[1]/a")
-    )
-).click()
+click_javascript_void("//*[@id='mapSearch']/div[2]/div[3]/div/div[2]/div[1]/a")
 # 주소 입력(시, 구, 동)
-WebDriverWait(driver, 20).until(
-    EC.element_to_be_clickable(
-        (
-            By.XPATH,
-            "//*[@id='mapSearch']/div[2]/div[1]/section/div[1]/div[1]/div[2]/div/div/table/tbody/tr[1]/td[1]/a",
-        )
-    )
-).click()
-WebDriverWait(driver, 20).until(
-    EC.element_to_be_clickable(
-        (
-            By.XPATH,
-            "//*[@id='mapSearch']/div[2]/div[1]/section/div[1]/div[2]/div[2]/div/div/table/tbody/tr[5]/td[2]/a",
-        )
-    )
-).click()
-WebDriverWait(driver, 20).until(
-    EC.element_to_be_clickable(
-        (
-            By.XPATH,
-            "//*[@id='mapSearch']/div[2]/div[1]/section/div[1]/div[3]/div[2]/div/div/table/tbody/tr[3]/td[2]/a",
-        )
-    )
-).click()
+click_javascript_void(
+    "//*[@id='mapSearch']/div[2]/div[1]/section/div[1]/div[1]/div[2]/div/div/table/tbody/tr[1]/td[1]/a"
+)
+click_javascript_void(
+    "//*[@id='mapSearch']/div[2]/div[1]/section/div[1]/div[2]/div[2]/div/div/table/tbody/tr[5]/td[2]/a"
+)
+click_javascript_void(
+    "//*[@id='mapSearch']/div[2]/div[1]/section/div[1]/div[3]/div[2]/div/div/table/tbody/tr[3]/td[2]/a"
+)
 driver.implicitly_wait(20)
 
 ahyun = []
