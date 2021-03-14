@@ -17,15 +17,15 @@ def crawl_general_data(driver):
     for i in range(len(building_in_dong)):
         type_trading = building_in_dong[i][1].split("매매")
         tenant_wolse = re.split("전세|월세", building_in_dong[i][2])[1:]
-        b = Building_general(
-            building_name=building_in_dong[i][0],
-            building_type=type_trading[0],
-            trading_num=type_trading[1],
-            tenant_num=tenant_wolse[0],
-            wolse_num=tenant_wolse[1],
+        general_data.append(
+            Building_general(
+                building_name=building_in_dong[i][0],
+                building_type=type_trading[0],
+                trading_num=type_trading[1],
+                tenant_num=tenant_wolse[0],
+                wolse_num=tenant_wolse[1],
+            )
         )
-        print(b)
-        general_data.append(b)
 
 
 # def crawl_specific_data():
