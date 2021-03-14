@@ -1,4 +1,4 @@
-from config import CHROME_DRIVER_PATH
+import os
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -11,7 +11,7 @@ def move_to_page(url):
             EC.element_to_be_clickable((By.XPATH, "{0}".format(xpath)))
         ).click()
 
-    driver = webdriver.Chrome(CHROME_DRIVER_PATH)
+    driver = webdriver.Chrome(os.path.join("libs", "chromedriver.exe"))
     driver.get(url)
 
     apt_btn = driver.find_element_by_class_name(
