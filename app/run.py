@@ -8,11 +8,12 @@ logger = structlog.get_logger()
 
 
 def run(scheduler):
-    scheduler.add_job(crawler, "cron", second="*/30", id="naver-crawler")
+    crawler()
+    # scheduler.add_job(crawler, "cron", second="*/30", id="naver-crawler")
 
 
 def crawler():
-    logger.info(f' crawler :  2분 마다 실행  {time.strftime("%H:%M:%S")}')
+    logger.info(f' crawler :  1회 실행  {time.strftime("%H:%M:%S")}')
     url = "https://m.land.naver.com/"
     driver = move_to_page(url)
     crawl_general_data(driver)
