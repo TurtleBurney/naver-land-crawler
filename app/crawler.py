@@ -1,6 +1,6 @@
 import re
 
-from model.buildings import Building_general
+from model.buildings import Building
 from selenium.webdriver.common.by import By
 
 
@@ -18,7 +18,7 @@ def crawl_general_data(driver):
         type_trading = building_in_dong[i][1].split("매매")
         tenant_wolse = re.split("전세|월세", building_in_dong[i][2])[1:]
         general_data.append(
-            Building_general(
+            Building(
                 building_name=building_in_dong[i][0],
                 building_type=type_trading[0],
                 trading_num=type_trading[1],
