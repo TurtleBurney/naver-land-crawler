@@ -18,13 +18,13 @@ def move_to_page(url):
         "home_main_button.first_line._rletTypeBtn._innerLink"
     )
     apt_btn.click()
-    base_tag = "//*[@id='mapSearch']/div[2]/div[1]/section/div[1]/"
+    BASE_TAG = "//*[@id='mapSearch']/div[2]/div[1]/section/div[1]/"
     # 주소 변경 탭 활성화
     click_javascript_void("//*[@id='mapSearch']/div[2]/div[3]/div/div[2]/div[1]/a")
     # 주소 입력(시, 구, 동)
-    click_javascript_void(base_tag + "div[1]/div[2]/div/div/table/tbody/tr[1]/td[1]/a")
-    click_javascript_void(base_tag + "div[2]/div[2]/div/div/table/tbody/tr[5]/td[2]/a")
-    click_javascript_void(base_tag + "div[3]/div[2]/div/div/table/tbody/tr[3]/td[2]/a")
+    click_javascript_void(BASE_TAG + "div[1]/div[2]/div/div/table/tbody/tr[1]/td[1]/a")
+    click_javascript_void(BASE_TAG + "div[2]/div[2]/div/div/table/tbody/tr[5]/td[2]/a")
+    click_javascript_void(BASE_TAG + "div[3]/div[2]/div/div/table/tbody/tr[3]/td[2]/a")
     driver.implicitly_wait(20)
     return driver
 
