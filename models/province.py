@@ -6,6 +6,10 @@ from .base import Model, BaseModel
 
 @dataclass
 class Province(Model, BaseModel):
+    """
+    지역 Info 모델
+    """
+
     __tablename__ = "province"
 
     id = sa.Column(sa.Integer(), primary_key=True)
