@@ -4,30 +4,21 @@ from dataclasses import dataclass
 
 
 @dataclass
-class Building:
-    building_name: str
-    building_type: str
-    # contract_type : str
-    trading_num: int
-    tenant_num: int
-    wolse_num: int
-    # building_dong : str
-    # exclusive_area : float
-    # shared_area : float
-    # target_floor : int
-    # max_floor : int
-    # window_side : str
-    # trading_price_min : int
-    # trading_price_max : int
+class BuildingModel:
+    __tablename__ = "building"
 
+    id = sa.Column(sa.Integer(), primary_key=True)
 
-@dataclass
-class BuildingTemplateModel:
-    __tablename__ = "building_template"
-
-    id = sa.Column(sa.Integer, primary_key=True)
-    name = sa.Column(sa.String(200))
+    province_id = sa.Integer()
+    name = sa.Column(sa.String(256))
     category = sa.Column(sa.String(100))
-    traiding_num = sa.Column(sa.Integer)
-    tenant_num = sa.Column(sa.Integer)
-    wolse_num = sa.Column(sa.Integer)
+
+    dong = sa.Column(sa.String(64))
+    ho = sa.Column(sa.String(64))
+
+    floor = sa.Column(sa.Integer)
+    max_floor = sa.Column(sa.Integer)
+
+    exclusive_area = sa.Column(sa.Float())
+    shared_area = sa.Column(sa.Float())
+    window_side = sa.Colum(sa.String(64))
