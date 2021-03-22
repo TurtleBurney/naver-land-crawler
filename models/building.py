@@ -25,6 +25,9 @@ class Building(Model, BaseModel):
         total_houshold  : Integer
         land_address    : String(128)
         road_address    : String(128)
+        deal_count      : Integer
+        tnant_count     : Integer
+        rent_count      : Integer
     relation
         AreaType        : this.id           FK
         HouseHold       : this.id           FK
@@ -47,6 +50,10 @@ class Building(Model, BaseModel):
 
     land_address = sa.String(128)  # 지번 주소
     road_address = sa.String(128)  # 도로명 주소
+
+    deal_count = sa.Integer()  # 현재 매매 매물
+    tnant_count = sa.Integer()  # 현재 전세 매물
+    rent_count = sa.Integer()  # 현재 월세 매물
 
     # relationship
     area_type = orm.relationship("AreaType", backref=orm.backref("area_type"))

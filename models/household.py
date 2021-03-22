@@ -24,9 +24,10 @@ class Household(Model, BaseModel):
 
     # meta
     __tablename__ = "household"
-    id = sa.Column(sa.Integer(), primary_key=True)
 
     # fields
+    id = sa.Column(sa.Integer(), primary_key=True)
+
     dong = sa.Column(sa.Integer())
     floor = sa.Column(sa.Integer())
     ho = sa.Column(sa.String(32))

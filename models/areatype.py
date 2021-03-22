@@ -22,9 +22,10 @@ class AreaType(Model, BaseModel):
 
     # meta
     __tablename__ = "areatype"
-    id = sa.Column(sa.Integer(), primary_key=True)
 
     # fields
+    id = sa.Column(sa.Integer(), primary_key=True)
+
     area_name = sa.Column(sa.String(16), nullable=False)
     shared_area = sa.Column(sa.Float(), nullable=False)
     exclusive_area = sa.Column(sa.Float(), nullable=False)

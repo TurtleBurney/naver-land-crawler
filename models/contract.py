@@ -21,6 +21,8 @@ class Contract(Model, BaseModel):
         category        : Enum                      FALSE
         deal_upper      : Integer
         deal_lower      : Integer
+        deposit_upper   : Integer
+        deposit_lower   : Integer
         rent_upper      : Integer
         rent_lower      : Integer
     relationship
@@ -37,6 +39,8 @@ class Contract(Model, BaseModel):
     )
     deal_upper = sa.Column(sa.Integer())  # 거래가 상한
     deal_lower = sa.Column(sa.Integer())  # 거래가 하한
+    deposit_upper = sa.Column(sa.Integer())  # 보증금 상한
+    deposit_lower = sa.Column(sa.Integer())  # 보증금 하한
     rent_upper = sa.Column(sa.Integer())  # 월세 상한
     rent_lower = sa.Column(sa.Integer())  # 월세 하한
 
