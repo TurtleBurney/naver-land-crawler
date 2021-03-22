@@ -30,12 +30,13 @@ class AreaType(Model, BaseModel):
     shared_area = sa.Column(sa.Float(), nullable=False)
     exclusive_area = sa.Column(sa.Float(), nullable=False)
 
-    # Relationship
+    # relationship
     building_id = sa.Column(
         sa.Integer(),
         sa.ForeignKey("building.id", ondelete="CASCADE", name="building_fkey"),
         nullable=False,
         index=True,
     )
-    # Backref
+
+    # backref
     household = orm.relationship("HouseHold", backref=orm.backref("household"))

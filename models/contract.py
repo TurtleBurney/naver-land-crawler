@@ -31,9 +31,10 @@ class Contract(Model, BaseModel):
 
     # meta
     __tablename__ = "contract"
-    id = sa.Column(sa.Integer(), primary_key=True)
 
     # fields
+    id = sa.Column(sa.Integer(), primary_key=True)
+
     category = sa.Column(
         sa.Enum(ContractCategory, name="en_contract_category"), nullable=False
     )
