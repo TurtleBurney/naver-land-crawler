@@ -32,7 +32,7 @@ def crawl_general_data(driver):
     print(general_data[0])
     return driver, general_data
 
-# git 꼬임
+# git 꼬임 심폐소생중
 
 # def crawl_specific_data(driver, general_data):
 #     # if (general_data): 
