@@ -17,7 +17,7 @@ class AreaType(Model, BaseModel):
     relationship
         Building        : building.id      FK       FALSE
     backref
-        HouseHold       : > this.id        > FK
+        Household       : > this.id        > FK
     """
 
     # meta
@@ -39,4 +39,5 @@ class AreaType(Model, BaseModel):
     )
 
     # backref
-    household = orm.relationship("HouseHold", backref=orm.backref("household"))
+    # TODO: backref name check
+    household = orm.relationship("Household", backref=orm.backref("_household"))

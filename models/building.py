@@ -30,7 +30,7 @@ class Building(Model, BaseModel):
         rent_count      : Integer
     relation
         AreaType        : this.id           FK
-        HouseHold       : this.id           FK
+        Household       : this.id           FK
     """
 
     # metadata
@@ -56,5 +56,5 @@ class Building(Model, BaseModel):
     rent_count = sa.Integer()  # 현재 매물(월세)의 수
 
     # relationship
-    area_type = orm.relationship("AreaType", backref=orm.backref("area_type"))
+    area_type = orm.relationship("AreaType", backref=orm.backref("areatype"))
     household = orm.relationship("Household", backref=orm.backref("household"))
