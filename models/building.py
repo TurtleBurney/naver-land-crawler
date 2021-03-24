@@ -6,9 +6,6 @@ from dataclasses import dataclass
 from .base import Model, BaseModel
 
 
-mapper_registry = registry()
-
-
 class BuildingCategory(enum.Enum):
     APARTMENT = "APT"
     OFFICETEL = "OPT"
@@ -39,7 +36,7 @@ class Building(Model, BaseModel):
     # metadata
     __table__ = sa.Table(
         "building",
-        mapper_registry.metadata,
+        Model.metadata,
         sa.Column("id", sa.Integer(), primary_key=True),
         sa.Column("name", sa.String(256), nullable=False, index=True),  # 건축물 명
         sa.Column(
@@ -56,6 +53,7 @@ class Building(Model, BaseModel):
         sa.Column("tnant_count", sa.Integer()),  # 현재 매물(전세)의 수
         sa.Column("rent_count", sa.Integer()),  # 현재 매물(월세)의 수
     )
+    __mapper_args__ = {"primary_key": __table__.c.id}
 
     # fields
     id: int
