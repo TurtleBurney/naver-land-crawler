@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from .base import Model, BaseModel
 
 
-mapper_registry = registry()
+mapper_registry = orm.registry()
 
 
 class BuildingCategory(enum.Enum):
@@ -56,6 +56,7 @@ class Building(Model, BaseModel):
         sa.Column("tnant_count", sa.Integer()),  # 현재 매물(전세)의 수
         sa.Column("rent_count", sa.Integer()),  # 현재 매물(월세)의 수
     )
+    __mapper_args__ = {"primary_key": __table__.c.id}
 
     # fields
     id: int
