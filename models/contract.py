@@ -1,6 +1,7 @@
 import enum
-import sqlalchemy as sa
 from sqlalchemy import orm
+from sqlalchemy import Column, Integer, String, Enum
+from sqlalchemy import ForeignKey
 from dataclasses import dataclass
 from .base import Model, BaseModel
 
@@ -33,22 +34,22 @@ class Contract(Model, BaseModel):
     __tablename__ = "contract"
 
     # fields
-    id = sa.Column(sa.Integer(), primary_key=True)
+    id = Column(Integer(), primary_key=True)
 
-    category = sa.Column(
-        sa.Enum(ContractCategory, name="en_contract_category"), nullable=False
+    category = Column(
+        Enum(ContractCategory, name="en_contract_category"), nullable=False
     )
-    deal_upper = sa.Column(sa.Integer())  # 거래가 상한
-    deal_lower = sa.Column(sa.Integer())  # 거래가 하한
-    deposit_upper = sa.Column(sa.Integer())  # 보증금 상한
-    deposit_lower = sa.Column(sa.Integer())  # 보증금 하한
-    rent_upper = sa.Column(sa.Integer())  # 월세 상한
-    rent_lower = sa.Column(sa.Integer())  # 월세 하한
+    deal_upper = Column(Integer())  # 거래가 상한
+    deal_lower = Column(Integer())  # 거래가 하한
+    deposit_upper = Column(Integer())  # 보증금 상한
+    deposit_lower = Column(Integer())  # 보증금 하한
+    rent_upper = Column(Integer())  # 월세 상한
+    rent_lower = Column(Integer())  # 월세 하한
 
     # relationship
-    household_id = sa.Column(
-        sa.Integer(),
-        sa.ForeignKey("household.id", ondelete="CASCADE", name="household_fkey"),
+    household_id = Column(
+        Integer(),
+        ForeignKey("household.id", ondelete="CASCADE", name="household_fkey"),
         nullable=False,
         index=True,
     )

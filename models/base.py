@@ -18,9 +18,7 @@ class Base:
 
 
 class BaseModel(Base):
-    pass
-    # created_datetime = sa.Column(
-    #     sa.DateTime, nullable=False, index=True, default=datetime.now
-    # )
-    # modified_datetime = sa.Column(sa.DateTime, onupdate=datetime.now)
-# launcher 실행을 위해 임시로 주석처리 시행
+    created_datetime = sa.Column(
+        sa.DateTime, nullable=False, index=True, default=datetime.now
+    )
+    modified_datetime = sa.Column(sa.DateTime, onupdate=datetime.now)
