@@ -26,6 +26,7 @@ def crawl_general_data(driver):
                 rent_count=tenant_wolse[1],
             )
         )
+<<<<<<< HEAD
         print(type_trading)
         print(tenant_wolse)
         
@@ -58,6 +59,36 @@ def crawl_general_data(driver):
 #             (By.XPATH, "//*[@id='_listContainer']/div/div[3]/div/div/div[1]/a")
 #         )
 #     ).click()
+=======
+    return driver
+
+
+def crawl_specific_data(driver):
+    # if (매물s[x]매물 수가 0보다 크다면):
+    WebDriverWait(driver, 50).until(
+            EC.element_to_be_clickable(
+                (
+                    By.XPATH,
+                    "//*[@id='mapSearch']/div[2]/div[1]/section/div[1]/div[4]/div/div[2]/div/ul/li[{0}]/a".format(
+                        x + 1
+                    ),
+                )
+            )
+        ).click()
+
+    # 지도로 보기 클릭
+    WebDriverWait(driver, 50).until(
+        EC.element_to_be_clickable(
+            (By.XPATH, "//*[@id='mapSearch']/div[2]/div[1]/section/div[2]/a")
+        )
+    ).click()
+    # 상세 정보 보기 클릭
+    WebDriverWait(driver, 50).until(
+        EC.element_to_be_clickable(
+            (By.XPATH, "//*[@id='_listContainer']/div/div[3]/div/div/div[1]/a")
+        )
+    ).click()
+>>>>>>> 8bc13381e28fee9c1483468d5cab903eac275551
     
 
 
