@@ -26,6 +26,7 @@ def crawl_general_data(driver):
                 rent_count=tenant_wolse[1],
             )
         )
+
         print(type_trading)
         print(tenant_wolse)
         
@@ -59,6 +60,7 @@ def crawl_general_data(driver):
 #             (By.XPATH, "//*[@id='_listContainer']/div/div[3]/div/div/div[1]/a")
 #         )
 #     ).click()
+>>>>>>> 6431ba421ac941ac189960fc42996de4c8c0093f
     
 
 
