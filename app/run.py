@@ -16,4 +16,5 @@ def crawler():
     logger.info(f' crawler :  1회 실행  {time.strftime("%H:%M:%S")}')
     url = "https://m.land.naver.com/"
     driver = move_to_page(url)
-    crawl_general_data(driver)
+    driver, general_data = crawl_general_data(driver)
+    # crawl_specific_data(driver, general_data)
