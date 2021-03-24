@@ -33,8 +33,19 @@ def crawl_general_data(driver):
     print(general_data[0])
     return driver, general_data
 
+<<<<<<< HEAD
 # git 꼬임 심폐소생중
 
+=======
+        print(type_trading)
+        print(tenant_wolse)
+        
+    print(general_data[0])
+    return driver, general_data
+
+# git 꼬임
+
+>>>>>>> e4873eb411d5b592da8c61bb093afaee02b50e02
 # def crawl_specific_data(driver, general_data):
 #     # if (general_data): 
 #     WebDriverWait(driver, 50).until(
@@ -60,6 +71,7 @@ def crawl_general_data(driver):
 #             (By.XPATH, "//*[@id='_listContainer']/div/div[3]/div/div/div[1]/a")
 #         )
 #     ).click()
+<<<<<<< HEAD
 =======
     return driver
 
@@ -90,6 +102,9 @@ def crawl_specific_data(driver):
         )
     ).click()
 >>>>>>> temporary commit for rebase
+=======
+>>>>>>> 6431ba421ac941ac189960fc42996de4c8c0093f
+>>>>>>> e4873eb411d5b592da8c61bb093afaee02b50e02
     
 
 
