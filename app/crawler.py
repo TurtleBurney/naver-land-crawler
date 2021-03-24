@@ -26,26 +26,14 @@ def crawl_general_data(driver):
                 rent_count=tenant_wolse[1],
             )
         )
-<<<<<<< HEAD
         print(type_trading)
         print(tenant_wolse)
         
     print(general_data[0])
     return driver, general_data
 
-<<<<<<< HEAD
 # git 꼬임 심폐소생중
 
-=======
-        print(type_trading)
-        print(tenant_wolse)
-        
-    print(general_data[0])
-    return driver, general_data
-
-# git 꼬임
-
->>>>>>> e4873eb411d5b592da8c61bb093afaee02b50e02
 # def crawl_specific_data(driver, general_data):
 #     # if (general_data): 
 #     WebDriverWait(driver, 50).until(
@@ -71,40 +59,6 @@ def crawl_general_data(driver):
 #             (By.XPATH, "//*[@id='_listContainer']/div/div[3]/div/div/div[1]/a")
 #         )
 #     ).click()
-<<<<<<< HEAD
-=======
-    return driver
-
-
-def crawl_specific_data(driver):
-    # if (매물s[x]매물 수가 0보다 크다면):
-    WebDriverWait(driver, 50).until(
-            EC.element_to_be_clickable(
-                (
-                    By.XPATH,
-                    "//*[@id='mapSearch']/div[2]/div[1]/section/div[1]/div[4]/div/div[2]/div/ul/li[{0}]/a".format(
-                        x + 1
-                    ),
-                )
-            )
-        ).click()
-
-    # 지도로 보기 클릭
-    WebDriverWait(driver, 50).until(
-        EC.element_to_be_clickable(
-            (By.XPATH, "//*[@id='mapSearch']/div[2]/div[1]/section/div[2]/a")
-        )
-    ).click()
-    # 상세 정보 보기 클릭
-    WebDriverWait(driver, 50).until(
-        EC.element_to_be_clickable(
-            (By.XPATH, "//*[@id='_listContainer']/div/div[3]/div/div/div[1]/a")
-        )
-    ).click()
->>>>>>> temporary commit for rebase
-=======
->>>>>>> 6431ba421ac941ac189960fc42996de4c8c0093f
->>>>>>> e4873eb411d5b592da8c61bb093afaee02b50e02
     
 
 
