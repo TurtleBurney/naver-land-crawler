@@ -43,16 +43,24 @@ def crawler():
     click_void(driver, step2_sudamoon_tag)  # 시/군/구 선택에서 '서대문구' 선택
     click_void(driver, step3_bukahyun_tag)  # 읍/면/동 선택에서 '북아현동' 선택
     driver.implicitly_wait(20)
+    logger.info(f' crawler :  초기 주소설정 완료')
     ##
 
     building_list = crawl_buildings(driver)
+    if len(building_list) != 0:
+        logger.info(f' crawler :  building_list 저장완료')
     for i, building in enumerate(building_list):
         i_th_building_tag = f"{REGION_AREA_TAG}div[4]/div/div[2]/div/ul/li[{(i+1)}]/a"
         click_void(driver, i_th_building_tag)  # i번째 건물 선택
         click_void(driver, REGION_SHOW_TAG)  # 지도로 보기 클릭
         click_void(driver, BUILDING_SHOW_TAG)  # 건물 정보 상세보기
-
+        
+        logger.info(f' crawler :  building[{i}] 크롤링 시작')
+        time.sleep(5)
         crawl_households(driver, building)
+
+        if building.total_household != None and building.built_year != None:
+            logger.info(f' crawler :  building[{i}] 인스턴스 채우기 완료')
         # move back
         driver.back()
         driver.back()
