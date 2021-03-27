@@ -9,33 +9,42 @@ def get_building_count(driver):
     return len(items)
 
 
-def crawl_buildings(driver):  # crawl building으로 이름 변경
+def crawl_buildings(driver): 
     building_list = []
 
-    # TODO : naming problem... dong_household...
+    # Building Class의 속성 크롤링
     building_name = driver.find_elements_by_class_name("heading")[7].text
-    built_year = driver.find_elements_by_class_name("data")[5].text
     deal_count = driver.find_elements_by_class_name("txt_price")[0].text
     tnant_count = driver.find_elements_by_class_name("txt_price")[1].text
     rent_count = driver.find_elements_by_class_name("txt_price")[2].text
-    land_address = driver.find_elements_by_class_name("p_address_place._addr").text
-    road_address = driver.find_elements_by_class_name(
-        "p_address_place._road_addr"
-    ).text[8:]
-    # 아래 변수들은 split 후 다른 변수에 담아 인스턴스에 할당
+    land_address = driver.find_element_by_class_name("p_address_place._addr").text
+    road_address = driver.find_element_by_class_name("p_address_road._road_addr").text[8:]
     category = driver.find_element_by_class_name(
         "label_detail.label_detail--positive"
     ).text[:-3]
-    dong_hosehold_string = driver.find_elements_by_class_name("data")[2].text
+    # 최근에 매매된 기록이 있는지 확인(포맷이 달라짐)
+    try:
+        whether_deal_recently = driver.find_element_by_class_name("date")
+        whether_deal_recently = True
+    except:
+        whether_deal_recently = False
 
-    string_split = dong_hosehold_string.split()
-    if len(string_split) == 1:
-        total_dong_and_household = re.split("세대|동", dong_hosehold_string)
+    if whether_deal_recently:
+        household_info = driver.find_elements_by_class_name("data")[3].text
+        built_year = driver.find_elements_by_class_name("data")[6].text
+    else:
+        household_info = driver.find_elements_by_class_name("data")[2].text # 여기다여기야
+        built_year = driver.find_elements_by_class_name("data")[5].text
+
+    # 크롤링 된 내용 가공
+    household_info_split = household_info.split()
+    if len(household_info_split) == 1:
+        total_dong_and_household = re.split("세대|동", household_info)
         total_dong = total_dong_and_household[1][1:]
         total_household = total_dong_and_household[0]
     else:
-        total_dong = string_split[3][1:-3]
-        total_household = string_split[:-6]
+        total_dong = household_info_split[3][1:-2]
+        total_household = household_info_split[0][:-5]
 
     building = Building(
         name=building_name,
@@ -55,7 +64,3 @@ def crawl_buildings(driver):  # crawl building으로 이름 변경
 
 if __name__ == "__main__":
     get_building_count()
-
-
-# 100세대(1동)
-# 1,910세대(임대 326세대 포함, 총22동)
