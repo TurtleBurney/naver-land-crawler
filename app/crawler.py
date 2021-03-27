@@ -19,9 +19,7 @@ def crawl_buildings(driver):
     rent_count = driver.find_elements_by_class_name("txt_price")[2].text
     land_address = driver.find_element_by_class_name("p_address_place._addr").text
     road_address = driver.find_element_by_class_name("p_address_road._road_addr").text[8:]
-    category = driver.find_element_by_class_name(
-        "label_detail.label_detail--positive"
-    ).text[:-3]
+    category = driver.find_element_by_class_name("label_detail.label_detail--positive").text[:-3]
     # 최근에 매매된 기록이 있는지 확인(포맷이 달라짐)
     try:
         whether_deal_recently = driver.find_element_by_class_name("date")
@@ -33,7 +31,7 @@ def crawl_buildings(driver):
         household_info = driver.find_elements_by_class_name("data")[3].text
         built_year = driver.find_elements_by_class_name("data")[6].text
     else:
-        household_info = driver.find_elements_by_class_name("data")[2].text # 여기다여기야
+        household_info = driver.find_elements_by_class_name("data")[2].text
         built_year = driver.find_elements_by_class_name("data")[5].text
 
     # 크롤링 된 내용 가공
