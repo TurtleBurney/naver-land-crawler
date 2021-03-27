@@ -4,61 +4,57 @@ from models.building import Building
 from selenium.webdriver.common.by import By
 
 
-def crawl_buildings(driver):
-    # 북아현동 아파트, 오피스텔 개괄적인 정보 저장
-    building_list = []
+def get_building_count(driver):
     items = driver.find_elements(By.CLASS_NAME, "result_item")
-    for item in items:
-        building_info = item.text.split()
-        building_name = building_info[0]
+    return len(items)
 
-        # TODO : elements tag로 찾기
-        category = building_info[1].split("매매")[0]
-        deal_count = building_info[1].split("매매")[1]
-        tnant_count = re.split("전세|월세", building_info[2])[1]
-        rent_count = re.split("전세|월세", building_info[2])[2]
 
-        building = Building(
-            name=building_name,
-            category=category,
-            deal_count=deal_count,
-            tnant_count=tnant_count,
-            rent_count=rent_count,
-        )
-        building_list.append(building)
-    
+def crawl_buildings(driver):  # crawl building으로 이름 변경
+    building_list = []
+
+    # TODO : naming problem... dong_household...
+    building_name = driver.find_elements_by_class_name("heading")[7].text
+    built_year = driver.find_elements_by_class_name("data")[5].text
+    deal_count = driver.find_elements_by_class_name("txt_price")[0].text
+    tnant_count = driver.find_elements_by_class_name("txt_price")[1].text
+    rent_count = driver.find_elements_by_class_name("txt_price")[2].text
+    land_address = driver.find_elements_by_class_name("p_address_place._addr").text
+    road_address = driver.find_elements_by_class_name(
+        "p_address_place._road_addr"
+    ).text[8:]
+    # 아래 변수들은 split 후 다른 변수에 담아 인스턴스에 할당
+    category = driver.find_element_by_class_name(
+        "label_detail.label_detail--positive"
+    ).text[:-3]
+    dong_hosehold_string = driver.find_elements_by_class_name("data")[2].text
+
+    string_split = dong_hosehold_string.split()
+    if len(string_split) == 1:
+        total_dong_and_household = re.split("세대|동", dong_hosehold_string)
+        total_dong = total_dong_and_household[1][1:]
+        total_household = total_dong_and_household[0]
+    else:
+        total_dong = string_split[3][1:-3]
+        total_household = string_split[:-6]
+
+    building = Building(
+        name=building_name,
+        category=category,
+        deal_count=deal_count,
+        tnant_count=tnant_count,
+        rent_count=rent_count,
+        built_year=built_year,
+        total_dong=total_dong,
+        total_household=total_household,
+        land_address=land_address,
+        road_address=road_address,
+    )
+    building_list.append(building)
     return building_list
 
 
-def crawl_households(driver, building):
-    # TODO : naming problem... dong_household...
-    ID_TAG = "//*[@id='_basic_content_cd']/"
-
-    BUILDING_INFO_TAG = f"{ID_TAG}article[1]/div[2]/div/"
-
-    dong_household_tag = f"{BUILDING_INFO_TAG}div[1]/div[1]/span[2]"
-    built_year_tag = f"{BUILDING_INFO_TAG}div[2]/div[2]/span[2]"
-
-    built_year = driver.find_element_by_xpath(built_year_tag).text
-    dong_hosehold_string = driver.find_element_by_xpath(dong_household_tag).text
-    # 예외 발생(1,910세대(임대 326세대 포함, 총22동)) << 이의 경우 out of range 오류 발생
-    dong_household = re.split("세대|동", dong_hosehold_string)
-
-    land_address = driver.find_element_by_xpath(ID_TAG + "article[4]/div[2]/p[1]").text
-    road_address = driver.find_element_by_xpath(ID_TAG + "article[4]/div[2]/p[2]").text
-
-    building.built_year = built_year
-    building.total_household = dong_household[0]
-
-    building.land_address = land_address
-    building.road_address = road_address[8:]
-
-    # TODO : 조건문으로 예외처리하기
-    building.total_dong = dong_household[1][1:]
-
-
 if __name__ == "__main__":
-    crawl_buildings()
+    get_building_count()
 
 
 # 100세대(1동)
