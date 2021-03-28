@@ -1,7 +1,6 @@
 import re
 from datetime import datetime
-
-import sqlalchemy as sa
+from sqlalchemy import Column, DateTime
 from sqlalchemy.ext.declarative import declarative_base, declared_attr
 
 Model = declarative_base()
@@ -18,7 +17,7 @@ class Base:
 
 
 class BaseModel(Base):
-    created_datetime = sa.Column(
-        sa.DateTime, nullable=False, index=True, default=datetime.now
+    created_datetime = Column(
+        DateTime, nullable=False, index=True, default=datetime.now
     )
-    modified_datetime = sa.Column(sa.DateTime, onupdate=datetime.now)
+    modified_datetime = Column(DateTime, onupdate=datetime.now)

@@ -5,29 +5,19 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 
-def move_to_page(url):
-    def click_javascript_void(xpath):
-        WebDriverWait(driver, 20).until(
-            EC.element_to_be_clickable((By.XPATH, "{0}".format(xpath)))
-        ).click()
+def click_void(driver, tag):
+    # javascript tag를 클릭하기 위한 함수
+    WebDriverWait(driver, 500).until(
+        EC.element_to_be_clickable((By.XPATH, f"{tag}"))
+    ).click()
 
+
+def init_driver(url):
+    # Webdriver를 통해 해당 url의 chrome창 활성화
     driver = webdriver.Chrome(os.path.join("libs", "chromedriver.exe"))
     driver.get(url)
-
-    apt_btn = driver.find_element_by_class_name(
-        "home_main_button.first_line._rletTypeBtn._innerLink"
-    )
-    apt_btn.click()
-    BASE_TAG = "//*[@id='mapSearch']/div[2]/div[1]/section/div[1]/"
-    # 주소 변경 탭 활성화
-    click_javascript_void("//*[@id='mapSearch']/div[2]/div[3]/div/div[2]/div[1]/a")
-    # 주소 입력(시, 구, 동)
-    click_javascript_void(BASE_TAG + "div[1]/div[2]/div/div/table/tbody/tr[1]/td[1]/a")
-    click_javascript_void(BASE_TAG + "div[2]/div[2]/div/div/table/tbody/tr[5]/td[2]/a")
-    click_javascript_void(BASE_TAG + "div[3]/div[2]/div/div/table/tbody/tr[3]/td[2]/a")
-    driver.implicitly_wait(20)
     return driver
 
 
 if __name__ == "__main__":
-    move_to_page()
+    init_driver()

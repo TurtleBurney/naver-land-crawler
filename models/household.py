@@ -1,5 +1,6 @@
-import sqlalchemy as sa
 from sqlalchemy import orm
+from sqlalchemy import Column, Integer, String
+from sqlalchemy import ForeignKey
 from dataclasses import dataclass
 from .base import Model, BaseModel
 
@@ -26,23 +27,23 @@ class Household(Model, BaseModel):
     __tablename__ = "household"
 
     # fields
-    id = sa.Column(sa.Integer(), primary_key=True)
+    id = Column(Integer(), primary_key=True)
 
-    dong = sa.Column(sa.Integer())
-    floor = sa.Column(sa.Integer())
-    ho = sa.Column(sa.String(32))
-    window_side = sa.Column(sa.String(32))
+    dong = Column(Integer())
+    floor = Column(Integer())
+    ho = Column(String(32))
+    window_side = Column(String(32))
 
     # relationship
-    building_id = sa.Column(
-        sa.Integer(),
-        sa.ForeignKey("building.id", ondelete="CASCADE", name="building_fkey"),
+    building_id = Column(
+        Integer(),
+        ForeignKey("building.id", ondelete="CASCADE", name="building_fkey"),
         nullable=False,
         index=True,
     )
-    areatype_id = sa.Column(
-        sa.Integer(),
-        sa.ForeignKey("areatype.id", ondelete="CASCADE", name="areatype_fkey"),
+    areatype_id = Column(
+        Integer(),
+        ForeignKey("areatype.id", ondelete="CASCADE", name="areatype_fkey"),
         nullable=False,
         index=True,
     )

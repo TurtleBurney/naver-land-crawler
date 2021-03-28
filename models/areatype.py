@@ -1,5 +1,6 @@
-import sqlalchemy as sa
 from sqlalchemy import orm
+from sqlalchemy import Column, Integer, String, Float
+from sqlalchemy import ForeignKey
 from dataclasses import dataclass
 from .base import Model, BaseModel
 
@@ -17,26 +18,27 @@ class AreaType(Model, BaseModel):
     relationship
         Building        : building.id      FK       FALSE
     backref
-        HouseHold       : > this.id        > FK
+        Household       : > this.id        > FK
     """
 
     # meta
     __tablename__ = "areatype"
 
     # fields
-    id = sa.Column(sa.Integer(), primary_key=True)
+    id = Column(Integer(), primary_key=True)
 
-    area_name = sa.Column(sa.String(16), nullable=False)
-    shared_area = sa.Column(sa.Float(), nullable=False)
-    exclusive_area = sa.Column(sa.Float(), nullable=False)
+    area_name = Column(String(16), nullable=False)
+    shared_area = Column(Float(), nullable=False)
+    exclusive_area = Column(Float(), nullable=False)
 
     # relationship
-    building_id = sa.Column(
-        sa.Integer(),
-        sa.ForeignKey("building.id", ondelete="CASCADE", name="building_fkey"),
+    building_id = Column(
+        Integer(),
+        ForeignKey("building.id", ondelete="CASCADE", name="building_fkey"),
         nullable=False,
         index=True,
     )
 
     # backref
-    household = orm.relationship("HouseHold", backref=orm.backref("household"))
+    # TODO: backref name check
+    household = orm.relationship("Household", backref=orm.backref("_household"))
