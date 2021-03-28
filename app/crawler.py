@@ -8,7 +8,7 @@ def get_building_count(driver):
     quantities = driver.find_elements_by_class_name("quantity")
     crawlable_list = []
     count, property_count = 0, 0
-    for i, building in enumerate(quantities):
+    for index, building in enumerate(quantities):
         if count < 2:
             property_count = property_count + int(building.text)
             count += 1
@@ -16,7 +16,7 @@ def get_building_count(driver):
             property_count = property_count + int(building.text)
             crawlable = True if property_count > 0 else False
             if crawlable is True:
-                crawlable_list.append(index)
+                crawlable_list.append(index // 3)
             count, property_count = 0, 0
     return len(quantities) // 3, crawlable_list
 
