@@ -6,7 +6,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 
 def click_void(driver, tag):
-    WebDriverWait(driver, 50).until(
+    WebDriverWait(driver, 500).until(
         EC.element_to_be_clickable((By.XPATH, f"{tag}"))
     ).click()
 
