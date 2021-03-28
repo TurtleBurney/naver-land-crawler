@@ -1,14 +1,16 @@
 import time
 import structlog
 from app.client import init_driver, click_void
-from app.crawler import get_building_count, crawl_buildings
+from app.crawler import get_target_buildings, crawl_building
 from selenium.common.exceptions import WebDriverException
 
 logger = structlog.get_logger()
 
 
 def run(scheduler):
-    # scheduler와 함께 crawler 함수 호출
+    """
+    scheduler와 함께 crawler 함수 호출
+    """
     try:
         crawler()
     except WebDriverException as e:
@@ -17,7 +19,9 @@ def run(scheduler):
 
 
 def crawler():
-    # Selenium을 통해 url에서 javascript 활성화시키며 Building 정보 크롤링
+    """
+    Selenium을 통해 url에서 javascript 활성화시키며 Building 정보 크롤링
+    """
     try:
         logger.info(f' crawler :  1회 실행  {time.strftime("%H:%M:%S")}')
         url = "https://m.land.naver.com/"
@@ -52,9 +56,9 @@ def crawler():
         logger.info(f" crawler :  초기 주소설정 완료")
         ##
 
-        crawlable_list = get_building_count(driver)
-        logger.info(f" crawler :  crawlable_list 저장완료")
-        for index in crawlable_list:
+        target_building_list = get_target_buildings(driver)
+        logger.info(f" crawler :  target_building_list 저장완료")
+        for index in target_building_list:
             i_th_building_tag = f"{REGION_AREA_TAG}div[4]/div/div[2]/div/ul/li[{(index+1)}]/a"
 
             click_void(driver, i_th_building_tag)  # i번째 건물 선택
@@ -62,7 +66,7 @@ def crawler():
             click_void(driver, BUILDING_SHOW_TAG)  # 건물 정보 상세보기
             time.sleep(5)
             logger.info(f" crawler :  building[{index}] 크롤링 시작")
-            building_list = crawl_buildings(driver)
+            building_list = crawl_building(driver)
 
             # move back
             driver.back()
@@ -76,6 +80,6 @@ def crawler():
         logger.info(f" crawler :  building 크롤링 완료")
 
     finally:
-        logger.info(f" crawler :  driver is closed")
         driver.quit()
+        logger.info(f" crawler :  driver is closed")
 
