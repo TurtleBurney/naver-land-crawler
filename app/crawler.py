@@ -5,6 +5,11 @@ from selenium.webdriver.common.by import By
 
 
 def get_building_count(driver):
+    """
+    해당 동의 아파트, 오피스텔 list를 통해 2개의 변수를 return하는 함수
+    1. 해당 동의 아파트, 오피스텔 건물 수
+    2. 매물(매매, 전세, 월세)이 존재하는 건물의 index를 저장한 배열
+    """
     quantities = driver.find_elements_by_class_name("quantity")
     crawlable_list = []
     count, property_count = 0, 0
@@ -22,6 +27,7 @@ def get_building_count(driver):
 
 
 def crawl_buildings(driver):
+    # Building class를 생성할 data crawling
     building_list = []
 
     # Building Class의 속성 크롤링

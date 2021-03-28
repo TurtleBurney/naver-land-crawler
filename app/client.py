@@ -6,12 +6,14 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 
 def click_void(driver, tag):
+    # javascript tag를 클릭하기 위한 함수
     WebDriverWait(driver, 500).until(
         EC.element_to_be_clickable((By.XPATH, f"{tag}"))
     ).click()
 
 
 def init_driver(url):
+    # Webdriver를 통해 해당 url의 chrome창 활성화
     driver = webdriver.Chrome(os.path.join("libs", "chromedriver.exe"))
     driver.get(url)
     return driver
