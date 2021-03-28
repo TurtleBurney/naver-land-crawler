@@ -5,11 +5,22 @@ from selenium.webdriver.common.by import By
 
 
 def get_building_count(driver):
-    items = driver.find_elements(By.CLASS_NAME, "result_item")
-    return len(items)
+    quantities = driver.find_elements_by_class_name("quantity")
+    crawlable_list = []
+    count, for_sale = 0, 0
+    for building in quantities:
+        if count < 2:
+            for_sale = for_sale + int(building.text)
+            count += 1
+        else:
+            for_sale = for_sale + int(building.text)
+            crawlable = True if for_sale > 0 else False
+            crawlable_list.append(crawlable)
+            count, for_sale = 0, 0
+    return len(quantities) // 3, crawlable_list
 
 
-def crawl_buildings(driver): 
+def crawl_buildings(driver):
     building_list = []
 
     # Building Class의 속성 크롤링
