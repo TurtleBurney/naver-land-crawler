@@ -12,7 +12,7 @@ class ContractCategory(enum.Enum):
     RENT = "월세"
 
 
-@dataclass(frozen=True)
+@dataclass
 class Contract(Model, BaseModel):
     """
     계약 Info 모델

@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from .base import Model, BaseModel
 
 
-@dataclass(frozen=True)
+@dataclass
 class Household(Model, BaseModel):
     """
     건물 세대 Info 모델
