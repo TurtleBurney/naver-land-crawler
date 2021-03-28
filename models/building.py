@@ -10,7 +10,7 @@ class BuildingCategory(enum.Enum):
     OFFICETEL = "OPT"
 
 
-@dataclass(frozen=True)
+@dataclass
 class Building(Model, BaseModel):
     """
     건물 Info 모델

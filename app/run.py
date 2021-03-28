@@ -48,31 +48,30 @@ def crawler():
         click_void(driver, step1_seoul_tag)  # 시/도 선택에서 '서울시' 선택
         click_void(driver, step2_sudamoon_tag)  # 시/군/구 선택에서 '서대문구' 선택
         click_void(driver, step3_bukahyun_tag)  # 읍/면/동 선택에서 '북아현동' 선택
-        driver.implicitly_wait(500)
+        driver.implicitly_wait(30)
         logger.info(f" crawler :  초기 주소설정 완료")
         ##
 
-        building_count, crawlable_list = get_building_count(driver)
-        logger.info(f" crawler :  building_count 저장완료")
-        for index in range(building_count):
-            if index in crawlable_list:
-                i_th_building_tag = f"{REGION_AREA_TAG}div[4]/div/div[2]/div/ul/li[{(index+1)}]/a"
-                click_void(driver, i_th_building_tag)  # i번째 건물 선택
-                click_void(driver, REGION_SHOW_TAG)  # 지도로 보기 클릭
-                click_void(driver, BUILDING_SHOW_TAG)  # 건물 정보 상세보기
+        crawlable_list = get_building_count(driver)
+        logger.info(f" crawler :  crawlable_list 저장완료")
+        for index in crawlable_list:
+            i_th_building_tag = f"{REGION_AREA_TAG}div[4]/div/div[2]/div/ul/li[{(index+1)}]/a"
 
-                logger.info(f" crawler :  building[{index}] 크롤링 시작")
-                time.sleep(5)
-                building_list = crawl_buildings(driver)
+            click_void(driver, i_th_building_tag)  # i번째 건물 선택
+            click_void(driver, REGION_SHOW_TAG)  # 지도로 보기 클릭
+            click_void(driver, BUILDING_SHOW_TAG)  # 건물 정보 상세보기
+            time.sleep(5)
+            logger.info(f" crawler :  building[{index}] 크롤링 시작")
+            building_list = crawl_buildings(driver)
 
-                # move back
-                driver.back()
-                driver.back()
+            # move back
+            driver.back()
+            driver.back()
 
-                # 전체 건물리스트로 재접근을 위해 주소탭 클릭
-                click_void(driver, REOPEN_ADDRESS_TAB_TAG)  # 주소탭 활성화
-                click_void(driver, step3_bukahyun_tag)  # 읍/면/동 선택에서 '북아현동' 선택
-                click_void(driver, REGION_SHOW_TAG)  # 지도에서 보기 클릭
+            # 전체 건물리스트로 재접근을 위해 주소탭 클릭
+            click_void(driver, REOPEN_ADDRESS_TAB_TAG)  # 주소탭 활성화
+            click_void(driver, step3_bukahyun_tag)  # 읍/면/동 선택에서 '북아현동' 선택
+            click_void(driver, REGION_SHOW_TAG)  # 지도에서 보기 클릭
 
         logger.info(f" crawler :  building 크롤링 완료")
 

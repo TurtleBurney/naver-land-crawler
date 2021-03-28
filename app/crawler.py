@@ -8,7 +8,7 @@ def get_building_count(driver):
     """
     해당 동의 아파트, 오피스텔 list를 통해 2개의 변수를 return하는 함수
     1. 해당 동의 아파트, 오피스텔 건물 수
-    2. 매물(매매, 전세, 월세)이 존재하는 건물의 index를 저장한 배열
+    2. 매물(매매, 전세, 월세)이 존재하는 건물 index의 배열
     """
     quantities = driver.find_elements_by_class_name("quantity")
     crawlable_list = []
@@ -23,7 +23,7 @@ def get_building_count(driver):
             if crawlable is True:
                 crawlable_list.append(index // 3)
             count, property_count = 0, 0
-    return len(quantities) // 3, crawlable_list
+    return crawlable_list
 
 
 def crawl_buildings(driver):
@@ -39,17 +39,19 @@ def crawl_buildings(driver):
     road_address = driver.find_element_by_class_name("p_address_road._road_addr").text[8:]
     category = driver.find_element_by_class_name("label_detail.label_detail--positive").text[:-3]
     
-    # 최근에 매매된 기록이 있는지 확인(포맷이 달라짐)
+    """
+    최근에 매매된 기록이 있는지 판단
+    최근에 매매된 기록이 있다 -> class name이 data인 배열에 '최근 거래가'요소 추가로 인덱스 밀림
+    """
     try:
         whether_deal_recently = driver.find_element_by_class_name("date")
-        # whether_deal_recently = True
         household_info = driver.find_elements_by_class_name("data")[3].text
         built_year = driver.find_elements_by_class_name("data")[6].text
     except:
-        # whether_deal_recently = False
         household_info = driver.find_elements_by_class_name("data")[2].text
         built_year = driver.find_elements_by_class_name("data")[5].text
     
+
     # 크롤링 된 내용 가공
     household_info_split = household_info.split()
     if len(household_info_split) == 1:
