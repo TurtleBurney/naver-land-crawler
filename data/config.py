@@ -24,5 +24,10 @@ def load_config():
         if prefixed.upper() not in os.environ:
             raise MissingConfig
 
-        config[name] = cipher_suite.encrypt(f"{os.environ[prefixed.upper()]}".encode())
+        config[name] = os.environ[prefixed.upper()]
+        # cipher_suite.encrypt(f"{os.environ[prefixed.upper()]}".encode())
     return config
+
+
+def decode_config(config):
+    return cipher_suite.encrypt(config.decode())

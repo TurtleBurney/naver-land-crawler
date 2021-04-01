@@ -25,7 +25,7 @@ if __name__ == "__main__":
 
     while True:
         try:
-            run(scheduler=sched)
+            run(scheduler=sched, config=config)
 
             time.sleep(1000)
         except KeyboardInterrupt:
