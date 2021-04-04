@@ -1,6 +1,6 @@
 import time
 import structlog
-from app.runner import crawler, NaverCrawler
+from app.crawler import NaverCrawler
 from app.utils.logger import init_logger
 from apscheduler.schedulers.background import BackgroundScheduler
 from data.config import load_config
@@ -48,11 +48,12 @@ if __name__ == "__main__":
     init_logger()
 
     if MODE == "DEBUG":
-        crawler = Naver
-        crawler(load_config())
-    elif MODE == "SCHED":
-        launcher = SchedulerLauncher()
-        launcher.set_sched_task(crawler, "naver-crawler")
-        launcher.launch()
-    else:
-        logger.info(f"Mode {MODE} is not valid")
+        crawler = NaverCrawler(load_config())
+        crawler.run()
+#    elif MODE == "SCHED":
+#        launcher = SchedulerLauncher()
+#        launcher.set_sched_task(crawler, "naver-crawler")
+#        launcher.launch()
+#    else:
+#        logger.info(f"Mode {MODE} is not valid")
+#

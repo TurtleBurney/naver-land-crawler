@@ -38,19 +38,20 @@ class NaverClient(object):
         super().__init__()
 
         self.url = "https://m.land.naver.com/"
-        self.driver = self.init_driver()
+        self.driver = None
 
     def init_driver(self):
         # Webdriver를 통해 해당 url의 chrome창 활성화
+        logger.info(f" naver-client : init driver")
+
         driver = webdriver.Chrome(os.path.join("libs", "chromedriver.exe"))
         driver.get(self.url)
-        logger.info(f" crawler :  chrome창 활성화 완료")
 
         return driver
 
     def click(self, tag, index=0):
         # javascrip:void(0)를 이용해 창 변화
-        logger.info(f" click : {tag}")
+        # logger.info(f" click : {tag}")
 
         tag_list = {
             "VIEW_ON_MAP_TAG": VIEW_ON_MAP_TAG,
@@ -61,11 +62,12 @@ class NaverClient(object):
         if tag in tag_list:
             tag = tag_list[tag]
 
-        WebDriverWait(self.driver, 100).until(
+        WebDriverWait(self.driver, 200).until(
             EC.element_to_be_clickable((By.XPATH, f"{tag}"))
         ).click()
 
     def click_main(self):
+        self.driver = self.init_driver()
         self.driver.find_element_by_class_name(MAIN_APT_BUTTON_TAG).click()
 
     def click_address(self, flag=None):
@@ -75,7 +77,7 @@ class NaverClient(object):
             self.click(step1_seoul_tag)  # 시/도 선택에서 '서울시' 선택
             self.click(step2_sudamoon_tag)  # 시/군/구 선택에서 '서대문구' 선택
         else:
-            self.click(REOPEN_ADDRESS_TAB_TAG)  
+            self.click(REOPEN_ADDRESS_TAB_TAG)
 
         self.click(step3_bukahyun_tag)  # 읍/면/동 선택에서 '북아현동' 선택
 
@@ -92,7 +94,6 @@ class NaverClient(object):
     def crawl_quantities(self):
         quantities = self.driver.find_elements_by_class_name("quantity")
         return quantities
-
 
 
 if __name__ == "__main__":
