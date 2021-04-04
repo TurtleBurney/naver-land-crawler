@@ -6,16 +6,15 @@ from selenium.webdriver.common.by import By
 logger = structlog.get_logger()
 
 
-def get_target_buildings(driver):
+def get_target_buildings(driver, quantities):
     """
     해당 동의 아파트, 오피스텔 list를 통해
     매물(매매, 전세, 월세)이 존재하는 건물 index의 배열을 return하는 함수
     """
-    quantities = driver.find_elements_by_class_name("quantity")
-
     target_building_list = []
     property_count = 0
-
+    del quantities[3] # 단기임대 생성에 따른 임시방편
+    
     for index, building in enumerate(quantities):
         property_count = property_count + int(building.text)
         if (index + 1) % 3 == 0:
