@@ -11,20 +11,32 @@ logger = structlog.get_logger()
 
 
 class NaverCrawler(object):
+    """
+    Naver에서 부동산 정보 크롤러
+    """
+
     def __init__(self, config):
+        """
+        Naver Crawler 초기화 설정
+        """
         super().__init__()
 
         #: Config Setting
         self.config = config
 
         #: Client Setting
-        self.naver_client = NaverClient(self.config)
+        self.client = NaverClient(self.config)
         self.db_Client = DBClient(self.config)
 
     def run(self, mode="DEBUG"):
-        client = self.naver_client
+        """
+        Crawler의 작업을 수행합니다.
+        """
+
+        client = self.client
         try:
             building_list = self.crawl_buildings_info(client)
+            # TODO: 수집정보 DB 송신
             print(building_list)
 
         except KeyboardInterrupt:
@@ -86,7 +98,7 @@ class NaverCrawler(object):
         """
         Building class를 생성할 data crawling
         """
-        driver = self.naver_client.driver
+        driver = self.client.driver
         # Building Class의 속성
         building_name = driver.find_elements_by_class_name("heading")[7].text
         deal_count = driver.find_elements_by_class_name("txt_price")[0].text
