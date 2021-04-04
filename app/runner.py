@@ -9,6 +9,17 @@ from urllib3.exceptions import ProtocolError
 logger = structlog.get_logger()
 
 
+class NaverCrawler(object):
+    def __init__(self, config):
+        self.config = config
+
+        self.NaverClient = NaverClient()
+        self.DBClient = DBClient(config)
+
+    def run():
+        logger.info("class start")
+
+
 def crawler(config):
     """
     Selenium을 통해 url에서 javascript 활성화시키며 Building 정보 크롤링
