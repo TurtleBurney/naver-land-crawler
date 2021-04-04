@@ -36,15 +36,16 @@ def crawler(config):
         Client.click_address("first")
         Client.sleep(1)
 
-        target_building_list = get_target_buildings(Client.driver)
+        quantities = Client.crawl_quantities()
+        target_building_list = get_target_buildings(Client.driver, quantities)
         logger.info(f" crawler :  target_building_list 저장완료")
 
         for index in target_building_list:
             logger.info(f" crawler :  building[{index}] 크롤링 시작")
 
             Client.click("i_th_building_tag", index)  # i번째 건물 선택
-            Client.click("REGION_SHOW_TAG")  # 지도로 보기 클릭
-            Client.click("BUILDING_SHOW_TAG")  # 건물 정보 상세보기
+            Client.click("VIEW_ON_MAP_TAG")  # 지도로 보기 클릭
+            Client.click("BUILDING_LIST_SHOW_TAG")  # 건물 정보 상세보기
             Client.sleep(3)
 
             building_list = crawl_building(Client.driver)
@@ -52,7 +53,7 @@ def crawler(config):
             # 전체 건물리스트로 재접근을 위해 주소탭 클릭
             Client.back(2)  # move back
             Client.click_address()
-            Client.click("REGION_SHOW_TAG")  # 지도에서 보기 클릭
+            Client.click("VIEW_ON_MAP_TAG")  # 지도에서 보기 클릭
 
         logger.info(f" crawler :  building 크롤링 완료")
     except KeyboardInterrupt as e:
