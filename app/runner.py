@@ -4,19 +4,9 @@ from app.client.db import DBClient
 from app.client.web import NaverClient
 from app.crawler import get_target_buildings, crawl_building
 from selenium.common.exceptions import WebDriverException
+from urllib3.exceptions import ProtocolError
 
 logger = structlog.get_logger()
-
-
-def run(scheduler, config):
-    """
-    scheduler와 함께 crawler 함수 호출
-    """
-    try:
-        crawler(config)
-    except WebDriverException as e:
-        logger.error(f"Crawler is stopped by [{e}]")
-    # scheduler.add_job(crawler, "cron", second="*/30", id="naver-crawler")
 
 
 def crawler(config):
@@ -27,7 +17,7 @@ def crawler(config):
     db_client = DBClient(config)
     try:
 
-        logger.info(f' crawler :  1회 실행  {time.strftime("%H:%M:%S")}')
+        logger.info(" crawler :  실행 ")
 
         Client.click_main()
 
@@ -55,9 +45,17 @@ def crawler(config):
             Client.click("VIEW_ON_MAP_TAG")  # 지도에서 보기 클릭
 
         logger.info(f" crawler :  building 크롤링 완료")
+    except KeyboardInterrupt as e:
+        logger.error(f"KeyboardInterrupt by [{e}]")
+
+    except WebDriverException as e:
+        logger.error(f"Crawler is stopped by [{e}]")
+
     except Exception as e:
         logger.info(f" crawler : crawler is stopped {e}")
 
+    else:
+        Client.quit()
+
     finally:
-        Client.driver.quit()
         logger.info(f" crawler :  driver is closed")

@@ -1,12 +1,12 @@
 import time
 import structlog
-from app.run import run
+from app.runner import crawler
 from app.utils.logger import init_logger
 from apscheduler.schedulers.background import BackgroundScheduler
 from data.config import load_config
 from dotenv import find_dotenv, load_dotenv
 
-sched = BackgroundScheduler()
+MODE = "DEBUG"
 logger = structlog.get_logger()
 
 try:
@@ -17,20 +17,41 @@ except IOError:
     load_dotenv(sample_env_file, override=False)
 
 
-if __name__ == "__main__":
-    config = load_config()
-    init_logger()
-    logger.info(f'Scheduling Start {time.strftime("%H:%M:%S")}')
-    sched.start()
+class SchedulerLauncher(object):
+    def __init__(self):
+        self.config = load_config()
+        self.scheduler = BackgroundScheduler()
 
-    while True:
+    def launch(self):
+        logger.info("Scheduling Start")
+        self.scheduler.start()
+
         try:
-            run(scheduler=sched, config=config)
+            while True:
+                try:
+                    time.sleep(1000)
+                except KeyboardInterrupt:
+                    logger.warn("Abort !!")
+                    break
 
-            time.sleep(1000)
-        except KeyboardInterrupt:
-            logger.warn("Abort !!")
-            break
+        finally:
+            logger.info("Scheduling done")
+            self.scheduler.shutdown()
 
-    sched.shutdown()
-    logger.info(f'Scheduling done  {time.strftime("%H:%M:%S")}')
+    def set_sched_task(self, task, name):
+        self.scheduler.add_job(
+            task, "interval", seconds=10, id=name, args=[self.config]
+        )
+
+
+if __name__ == "__main__":
+    init_logger()
+
+    if MODE == "DEBUG":
+        crawler(load_config())
+    elif MODE == "SCHED":
+        launcher = SchedulerLauncher()
+        launcher.set_sched_task(crawler, "naver-crawler")
+        launcher.launch()
+    else:
+        logger.info(f"Mode {MODE} is not valid")
