@@ -36,7 +36,17 @@ class NaverCrawler(object):
         client = self.client
         try:
             building_list = self.crawl_buildings_info(client)
+            # ,contracts_list
+
             # TODO: 수집정보 DB 송신
+            # building정보가 DB에 이미 등록되어 있는 건물인지 확인
+            # -> if not : create
+
+            # contracts info 정보가 DB에 이미 등록되어 있는 건물인지 확인
+            # -> if not : create
+
+            # create 된 contracts 정보는 메신저로 송신
+
             print(building_list)
 
         except KeyboardInterrupt:
@@ -57,6 +67,8 @@ class NaverCrawler(object):
         target_building_list = self.get_target_buildings(quantities)
 
         building_list = list()
+        # contracts_list = list()  # (contract, household) tuple list
+
         for index in target_building_list:
             logger.info(f" crawler :  building[{index}] 크롤링 시작")
 
@@ -65,8 +77,13 @@ class NaverCrawler(object):
             client.click("BUILDING_LIST_SHOW_TAG")  # 건물 정보 상세보기
             client.sleep(3)
 
+            # 건물 정보 크롤링
             building_info = self.crawl_building()
             building_list.append(building_info)
+
+            # 계약 / 대상 세대 정보 크롤링
+            # contracts = self.crawl_contract_info()
+            # contracts_list.append(contracts)
 
             # 전체 건물리스트로 재접근을 위해 주소탭 클릭
             client.back(2)  # move back
@@ -74,7 +91,7 @@ class NaverCrawler(object):
             client.click("VIEW_ON_MAP_TAG")  # 지도에서 보기 클릭
 
         logger.info(f" crawler :  building 크롤링 완료")
-        return building_list
+        return building_list  # , contracts_list
 
     def get_target_buildings(self, quantities):
         """
