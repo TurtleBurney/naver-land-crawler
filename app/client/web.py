@@ -38,16 +38,20 @@ class NaverClient(object):
         super().__init__()
 
         self.url = "https://m.land.naver.com/"
-        self.driver = None
+        self.driver = self.init_driver()
 
     def init_driver(self):
         # Webdriver를 통해 해당 url의 chrome창 활성화
-        logger.info(f" naver-client : init driver")
+        try:
+            logger.info(f" naver-client : init driver")
 
-        driver = webdriver.Chrome(os.path.join("libs", "chromedriver.exe"))
-        driver.get(self.url)
+            driver = webdriver.Chrome(os.path.join("libs", "chromedriver.exe"))
+            driver.get(self.url)
+            return driver
 
-        return driver
+        except:
+            logger.warn(" naver-clinet : driver connection fail")
+            return None
 
     def click(self, tag, index=0):
         # javascrip:void(0)를 이용해 창 변화
@@ -67,7 +71,6 @@ class NaverClient(object):
         ).click()
 
     def click_main(self):
-        self.driver = self.init_driver()
         self.driver.find_element_by_class_name(MAIN_APT_BUTTON_TAG).click()
 
     def click_address(self, flag=None):
