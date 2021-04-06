@@ -48,12 +48,10 @@ if __name__ == "__main__":
     init_logger()
 
     if MODE == "DEBUG":
-        crawler = NaverCrawler(load_config())
-        crawler.run()
-#    elif MODE == "SCHED":
-#        launcher = SchedulerLauncher()
-#        launcher.set_sched_task(crawler, "naver-crawler")
-#        launcher.launch()
-#    else:
-#        logger.info(f"Mode {MODE} is not valid")
-#
+        NaverCrawler().run()
+    #    elif MODE == "SCHED":
+    #        launcher = SchedulerLauncher()
+    #        launcher.set_sched_task(crawler, "naver-crawler")
+    #        launcher.launch()
+    else:
+        logger.info(f"Mode {MODE} is not valid")

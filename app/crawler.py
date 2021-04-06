@@ -1,7 +1,8 @@
 import re
 import time
 import structlog
-from models.building import Building
+from data.config import load_config
+from models.building import Building, TempBuilding
 from app.client.db import DBClient
 from app.client.web import NaverClient
 from selenium.common.exceptions import WebDriverException
@@ -15,18 +16,18 @@ class NaverCrawler(object):
     Naver에서 부동산 정보 크롤러
     """
 
-    def __init__(self, config):
+    def __init__(self):
         """
         Naver Crawler 초기화 설정
         """
         super().__init__()
 
         #: Config Setting
-        self.config = config
+        self.config = load_config()
 
         #: Client Setting
         self.client = NaverClient(self.config)
-        self.db_Client = DBClient(self.config)
+        self.db_client = DBClient(self.config)
 
     def run(self, mode="DEBUG"):
         """
@@ -34,28 +35,13 @@ class NaverCrawler(object):
         """
 
         client = self.client
+        session = self.db_client.session_factory()
+
         try:
             building_list = self.crawl_buildings_info(client)
-            # ,contracts_list
-
-            # TODO: 수집정보 DB 송신
-            # building정보가 DB에 이미 등록되어 있는 건물인지 확인
-            # -> if not : create
-
-            # contracts info 정보가 DB에 이미 등록되어 있는 건물인지 확인
-            # -> if not : create
-
-            # create 된 contracts 정보는 메신저로 송신
-
-            print(building_list)
-
-        except KeyboardInterrupt:
-            logger.warn("Keyboard Interrunption !")
-            raise
-        else:
-            client.quit()
 
         finally:
+            client.quit()
             logger.info(f" crawler :  driver is closed")
 
     def crawl_buildings_info(self, client):
@@ -129,6 +115,11 @@ class NaverCrawler(object):
             "label_detail.label_detail--positive"
         ).text[:-3]
 
+        if category == "아파트":
+            category = "APT"
+        elif category == "오피스텔":
+            category = "OPT"
+
         try:
             # 최근에 매매된 기록이 있는지 판단 (class name이 data인 배열에 '최근 거래가'요소 추가로 인덱스 밀림)
             whether_deal_recently = driver.find_element_by_class_name("date")
@@ -156,6 +147,7 @@ class NaverCrawler(object):
             land_address=land_address,
             road_address=road_address,
         )
+
         return building
 
     def split_household_info(self, household_info):
