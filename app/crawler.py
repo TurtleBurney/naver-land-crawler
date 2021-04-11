@@ -2,7 +2,7 @@ import re
 import time
 import structlog
 from data.config import load_config
-from models.building import Building, TempBuilding
+from models.building import Building
 from app.client.db import DBClient
 from app.client.web import NaverClient
 from selenium.common.exceptions import WebDriverException
