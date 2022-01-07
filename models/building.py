@@ -42,6 +42,8 @@ class Building(Model, BaseModel):
         nullable=False,
     )
     built_year = Column(Integer())  # 사용승인일(건축년도)
+    lowest_floor = Column(Integer())  # 최저층
+    highest_floor = Column(Integer())  # 최고층
     total_dong = Column(Integer())  # 전체 동수
     total_household = Column(Integer())  # 총 세대수
     land_address = Column(String(128))  # 지번 주소

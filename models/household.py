@@ -2,6 +2,8 @@ from sqlalchemy import orm
 from sqlalchemy import Column, Integer, String
 from sqlalchemy import ForeignKey
 from dataclasses import dataclass
+
+from sqlalchemy.sql.sqltypes import Float
 from .base import Model, BaseModel
 
 
@@ -31,8 +33,10 @@ class Household(Model, BaseModel):
 
     dong = Column(Integer())
     floor = Column(Integer())
-    ho = Column(String(32))
-    window_side = Column(String(32))
+    supply_area = Column(Float())  # 공급면적
+    private_area = Column(Float())  # 전용면적
+    window_side = Column(String(32))  # 방향(거실기준) 
+    link = Column(String(200))  # 매물 링크
 
     # relationship
     building_id = Column(
@@ -49,4 +53,5 @@ class Household(Model, BaseModel):
     )
 
     # Backref
+    # TODO : 외래키 관계 수정 필요
     contract = orm.relationship("Contract", backref=orm.backref("contract"))
