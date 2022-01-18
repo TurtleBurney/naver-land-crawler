@@ -5,7 +5,7 @@ from sqlalchemy import ForeignKey
 from dataclasses import dataclass
 
 from sqlalchemy.sql.expression import null
-from .base import Model, BaseModel
+from .base import Base
 
 
 class ContractCategory(enum.Enum):
@@ -15,7 +15,7 @@ class ContractCategory(enum.Enum):
 
 
 @dataclass
-class Price(Model, BaseModel):
+class Price(Base):
     """
     매물 가격 Info 모델 (단위 : 만원)
 

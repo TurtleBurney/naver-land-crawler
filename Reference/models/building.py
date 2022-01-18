@@ -2,7 +2,7 @@ import enum
 from sqlalchemy import orm
 from sqlalchemy import Column, Integer, String, Enum
 from dataclasses import dataclass
-from .base import Model, BaseModel
+from .base import Base
 
 
 class BuildingCategory(enum.Enum):
@@ -11,7 +11,7 @@ class BuildingCategory(enum.Enum):
 
 
 @dataclass
-class Building(Model, BaseModel):
+class Building(Base):
     """
     건물 Info 모델
 

@@ -4,11 +4,11 @@ from sqlalchemy import ForeignKey
 from dataclasses import dataclass
 
 from sqlalchemy.sql.sqltypes import Float
-from .base import Model, BaseModel
+from .base import Base
 
 
 @dataclass
-class Household(Model, BaseModel):
+class Household(Base):
     """
     건물 세대 Info 모델
 

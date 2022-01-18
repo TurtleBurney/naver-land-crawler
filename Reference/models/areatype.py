@@ -2,11 +2,11 @@ from sqlalchemy import orm
 from sqlalchemy import Column, Integer, String, Float
 from sqlalchemy import ForeignKey
 from dataclasses import dataclass
-from .base import Model, BaseModel
+from .base import Base
 
 
 @dataclass
-class AreaType(Model, BaseModel):
+class AreaType(Base):
     """
     건물 면적 타입 Info 모델
 

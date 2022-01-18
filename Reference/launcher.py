@@ -6,6 +6,8 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from data.config import load_config
 from dotenv import find_dotenv, load_dotenv
 
+
+
 MODE = "DEBUG"
 logger = structlog.get_logger()
 
@@ -45,6 +47,7 @@ class SchedulerLauncher(object):
 
 
 if __name__ == "__main__":
+    
     init_logger()
 
     if MODE == "DEBUG":

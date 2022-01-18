@@ -93,6 +93,7 @@ class NaverClient(object):
 
     def quit(self):
         self.driver.quit()
+        # 'NoneType' object has no attribute 'quit'
 
     def crawl_quantities(self):
         quantities = self.driver.find_elements_by_class_name("quantity")
