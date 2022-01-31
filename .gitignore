@@ -1,4 +1,5 @@
 .land/
 __pycache__/
+.env
 
 activate.bat
