@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 # config.py에서의 항목 불러옴
 import config
 
+# db객체가 declarative_base 대신 역할함(models에서 얘 상속받음)
 db = SQLAlchemy()
 migrate = Migrate()
 
