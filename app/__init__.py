@@ -24,8 +24,9 @@ def create_app():
     from .models import building, household, price
 
     # Blueprint
-    from .views import main_views
+    from .views import main_views, building_views
     app.register_blueprint(main_views.bp)
+    app.register_blueprint(building_views.bp_building)
     
     return app
 

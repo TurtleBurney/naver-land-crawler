@@ -1,0 +1,11 @@
+{% if building_list %}
+<ul>
+  {% for building in building_list %}
+  <li>
+    <a href="/detail/{{building.building_id}}/">{{building.building_name}}</a>
+  </li>
+  {% endfor%}
+</ul>
+{% else %}
+<p>기록된 건물이 없습니다.</p>
+{% endif %}
