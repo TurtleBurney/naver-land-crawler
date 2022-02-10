@@ -2,7 +2,9 @@
 <ul>
   {% for building in building_list %}
   <li>
-    <a href="/detail/{{building.building_id}}/">{{building.building_name}}</a>
+    <a href="{{url_for('building.detail', building_id=building.building_id)}}"
+      >{{building.building_name}}</a
+    >
   </li>
   {% endfor%}
 </ul>

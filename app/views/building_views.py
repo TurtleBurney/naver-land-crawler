@@ -3,8 +3,8 @@ from app.models.building import Building
 
 bp_building = Blueprint('building', __name__, url_prefix='/building')
 
-@bp_building.route('/')
-def index():
+@bp_building.route('/list/')
+def show_list():
     buildings = Building.query.all()
     # 추후 order_by(Building.building_name.asc)
     return render_template('building/building_list.html', building_list = buildings)
