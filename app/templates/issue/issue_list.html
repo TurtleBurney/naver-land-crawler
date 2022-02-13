@@ -12,4 +12,4 @@
 <p>등록된 게시물이 없습니다.</p>
 {% endif %}
 <!-- href url_for로 blueprint와 연결 -->
-<button type="button" onclick="location.href='issue_post.html'">글쓰기</button>
+<a href="{{ url_for('issue.create_issue')}}" class="btn">글쓰기</a>
