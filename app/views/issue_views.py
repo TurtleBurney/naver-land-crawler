@@ -1,6 +1,7 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, redirect, url_for
 from app.models.issue import Issue
 from app import db
+from app.forms import IssueForm
 
 
 bp_issue = Blueprint('issue', __name__, url_prefix='/issue')
@@ -15,16 +16,12 @@ def get_detail(issue_id):
     issue = Issue.query.get_or_404(issue_id)
     return render_template('issue/issue_detail.html', issue = issue)
 
-@bp_issue.route('/post/', methods=('POST',))
-def post_issue():
-    # render template 이후에 이 동작 일어나야하고 마지막 return은 다시 list창으론
-    title = request.form['title']
-    contents = request.form['contents']
-    email = request.form['email']
-    issue_pw = request.form['issue_pw']
-    writer = request.form['writer']
-    new_issue = Issue(title=title, contents=contents, email=email, issue_pw=issue_pw, writer=writer)
-    db.session.add(new_issue)
-    db.session.commit()
-    return render_template('issue/issue_post.html')
-    
+@bp_issue.route('/create/', methods=('GET', 'POST'))
+def create_issue():
+    form = IssueForm()
+    if request.method == 'POST' and form.validate_on_submit():
+        new_issue = Issue(title=form.title.data, contents=form.contents.data, email=form.email.data, issue_pw=form.issue_pw.data, writer=form.writer.data)
+        db.session.add(new_issue)
+        db.session.commit()
+        return redirect(url_for('issue.get_list'))
+    return render_template('issue/issue_post.html', form=form)
