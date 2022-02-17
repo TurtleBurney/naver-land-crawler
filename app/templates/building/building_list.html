@@ -1,13 +1,33 @@
-{% if building_list %}
-<ul>
-  {% for building in building_list %}
-  <li>
-    <a href="{{url_for('building.detail', building_id=building.building_id)}}"
-      >{{building.building_name}}</a
-    >
-  </li>
-  {% endfor%}
-</ul>
-{% else %}
-<p>기록된 건물이 없습니다.</p>
-{% endif %}
+<link
+  rel="stylesheet"
+  href="{{url_for('static', filename='bootstrap.min.css')}}"
+/>
+<div class="container my-3">
+  <table class="table">
+    <thead>
+      <tr class="thead-dark">
+        <th>번호</th>
+        <th>건물</th>
+        <th>주소</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% if building_list %} {% for building in building_list %}
+      <tr>
+        <td>{{loop.index}}</td>
+        <td>
+          <a
+            href="{{url_for('building.detail', building_id=building.building_id)}}"
+            >{{building.building_name}}</a
+          >
+        </td>
+        <td>{{building.road_address}}</td>
+      </tr>
+      {% endfor%} {% else %}
+      <tr>
+        <td colspan="3">기록된 건물이 없습니다.</td>
+      </tr>
+      {% endif %}
+    </tbody>
+  </table>
+</div>

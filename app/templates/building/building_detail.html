@@ -1,2 +1,14 @@
-<h1>{{building.building_name}}</h1>
-<div>{{building.total_dong}}</div>
+<link
+  rel="stylesheet"
+  href="{{url_for('static', filename='bootstrap.min.css')}}"
+/>
+<div class="container my-3">
+  <h2 class="border-bottom py-2">{{building.building_name}}</h2>
+  <div class="card my-3">
+    <div class="card-body">
+      <div class="card-text" style="white-space: pre-line">
+        전체 동 :{{building.total_dong}}
+      </div>
+    </div>
+  </div>
+</div>
