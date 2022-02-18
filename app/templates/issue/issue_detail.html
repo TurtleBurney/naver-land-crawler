@@ -1,2 +1,14 @@
-<h1>{{issue.title}}</h1>
-<div>{{issue.contents}}</div>
+<link
+  rel="stylesheet"
+  href="{{url_for('static', filename='bootstrap.min.css')}}"
+/>
+<div class="container my-3">
+  <h2 class="border-bottom py-2">{{issue.title}}</h2>
+  <div class="card my-3">
+    <div class="card-body">
+      <div class="card-text" style="white-space: pre-line">
+        {{issue.contents}}
+      </div>
+    </div>
+  </div>
+</div>

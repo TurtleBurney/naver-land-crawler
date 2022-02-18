@@ -1,15 +1,42 @@
-{% if issue_list %}
-<ul>
-  {% for issue in issue_list %}
-  <li>
-    <a href="{{url_for('issue.get_detail', issue_id=issue.issue_id)}}"
-      >{{issue.title}}</a
+<link
+  rel="stylesheet"
+  href="{{url_for('static', filename='bootstrap.min.css')}}"
+/>
+<div class="container my-3">
+  <h2>
+    건의사항<a
+      class="btn btn-primary"
+      style="float: right"
+      href="{{ url_for('issue.create_issue')}}"
+      class="btn"
+      >글쓰기</a
     >
-  </li>
-  {% endfor%}
-</ul>
-{% else %}
-<p>등록된 게시물이 없습니다.</p>
-{% endif %}
-<!-- href url_for로 blueprint와 연결 -->
-<a href="{{ url_for('issue.create_issue')}}" class="btn">글쓰기</a>
+  </h2>
+
+  <table class="table">
+    <thead>
+      <tr class="thead-dark">
+        <th>번호</th>
+        <th>게시글</th>
+        <th>작성일자</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% if issue_list %} {% for issue in issue_list %}
+      <tr>
+        <td>{{loop.index}}</td>
+        <td>
+          <a href="{{url_for('issue.get_detail', issue_id=issue.issue_id)}}"
+            >{{issue.title}}</a
+          >
+        </td>
+        <td>{{issue.created_at}}</td>
+      </tr>
+      {% endfor%} {% else %}
+      <tr>
+        <td colspan="3">등록된 게시물이 없습니다.</td>
+      </tr>
+      {% endif %}
+    </tbody>
+  </table>
+</div>
