@@ -1,7 +1,4 @@
-<link
-  rel="stylesheet"
-  href="{{url_for('static', filename='bootstrap.min.css')}}"
-/>
+{% extends 'base.html' %} {% block content%}
 <div class="container my-3">
   <h2>
     건의사항<a
@@ -40,3 +37,4 @@
     </tbody>
   </table>
 </div>
+{%endblock%}

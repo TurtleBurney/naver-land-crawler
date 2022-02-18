@@ -1,7 +1,4 @@
-<link
-  rel="stylesheet"
-  href="{{url_for('static', filename='bootstrap.min.css')}}"
-/>
+{% extends 'base.html' %} {% block content%}
 <div class="container my-3">
   <h5 class="border-bottom py-2">게시물 등록</h5>
   <form method="post" class="post_form my-2">
@@ -16,3 +13,4 @@
     </form>
   </div>  
 </div>
+{%endblock%}
