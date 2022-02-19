@@ -14,12 +14,17 @@
     />
     <!--app CSS-->
     <!-- <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}" /> -->
-    <title>Hello!</title>
+    <title>Naver-Land</title>
   </head>
   <body>
+    {% include "navbar.html" %}
     <!--기본 템플릿 안에 삽입될 내용 시작-->
     {%block content%} {%endblock%}
     <!--기본 템플릿 안에 삽입될 내용 끝-->
     <!--위 부분이 이 파일을 상속한 파일에서 구현해야 할 영역-->
+    <!-- jQuery JS -->
+    <script src="{{url_for('static', filename='jquery-3.6.0.min.js')}}"></script>
+    <!-- Bootstrap JS -->
+    <script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
   </body>
 </html>
