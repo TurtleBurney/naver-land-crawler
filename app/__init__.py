@@ -24,10 +24,11 @@ def create_app():
     from .models import building, household, price, issue
 
     # Blueprint
-    from .views import main_views, building_views, issue_views
+    from .views import main_views, building_views, issue_views, updated_info_views
     app.register_blueprint(main_views.bp)
     app.register_blueprint(building_views.bp_building)
     app.register_blueprint(issue_views.bp_issue)
+    app.register_blueprint(updated_info_views.bp_updated)
     
     return app
 

@@ -1,0 +1,27 @@
+{% extends 'base.html'%} {% block content %}
+<h2 class="border-bottom py-2">신규/변경된 매물 정보(기준 : 어제)</h2>
+<div class="container my-3">
+  <table class="table">
+    <thead>
+      <tr class="thead-dark">
+        <th>번호</th>
+        <th>건물</th>
+        <th>주소</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% if updated_building_info %} {% for building in updated_building_info %}
+      <tr>
+        <td>{{loop.index}}</td>
+        <td>{{building.building_name}}</td>
+        <td>{{building.road_address}}</td>
+      </tr>
+      {% endfor %} {% else %}
+      <tr>
+        <td colspan="3">어제로부터 변경된 정보가 없습니다.</td>
+      </tr>
+      {% endif %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
