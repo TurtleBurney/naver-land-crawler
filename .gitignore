@@ -1,5 +1,11 @@
-.land/
 __pycache__/
 .env
 
 activate.bat
+
+# vitrual Environment
+.land/
+.venv/
+
+# test
+.pytest_cache/
