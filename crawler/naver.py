@@ -18,13 +18,13 @@ class NaverLandCrawler:
         self.baseURL = "https://m.land.naver.com/complex"
 
     # Cralwer function
-    def get_building_json(self, code) -> json:
+    def get_building_json(self, code: str) -> json:
         url = self.building_list_url(code)
         response = self.get_request(url)
         return response.json()
 
-    def get_building_detail_text(self, hscpNo) -> str:
-        url = self.building_list_url(hscpNo)
+    def get_building_detail_text(self, hscpNo: str) -> str:
+        url = self.building_detail_url(hscpNo)
         response = self.get_request(url)
         return response.text
 
@@ -35,16 +35,16 @@ class NaverLandCrawler:
         return response
 
     # URL
-    def building_list_url(self, code) -> str:
+    def building_list_url(self, code: str) -> str:
         url = f"{self.baseURL}/ajax/complexListByCortarNo?cortarNo={code}"
         return url
 
-    def building_detail_url(self, hscpNo) -> str:
+    def building_detail_url(self, hscpNo: str) -> str:
         url = f"{self.baseURL}/info/{hscpNo}?tradTpCd=A1:B1:B2&ajax=y"
         return url
 
     # 건물 목록 + 건물 detail 정보 필요
-    def filter_building_info(self, basic_info) -> None:
+    def filter_building_info(self, basic_info: dict) -> None:
         building_info = basic_info["result"][0]
 
         building_name = building_info["hscpNm"]
@@ -56,7 +56,7 @@ class NaverLandCrawler:
 
 if __name__ == "__main__":
     crawler = NaverLandCrawler()
-    target_html = crawler.get_building_detail_text(110209)
+    target_html = crawler.get_building_detail_text("110209")
     soup = BeautifulSoup(target_html, "html.parser")
 
     file = open("sample.html", "w", encoding="UTF-8")
