@@ -1,6 +1,6 @@
 from flask import Blueprint, url_for
 from werkzeug.utils import redirect
-from app.models.building import Building
+from app.models.building_basic import BuildingBasic
 from app.models.household import Household
 # 경로가 왜 app부터 시작할까..??
 

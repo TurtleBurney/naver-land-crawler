@@ -12,8 +12,8 @@ class Household(db.Model):
     updated_at = db.Column(db.DateTime(timezone=True), onupdate=func.now())
 
     # Foreign key
-    building_id = db.Column(db.Integer, db.ForeignKey('building.building_id', ondelete='CASCADE'))
+    building_id = db.Column(db.Integer, db.ForeignKey('building_basic.building_id', ondelete='CASCADE'))
 
     # Back Reference
     # building 삭제시 관련 households 모두 삭제
-    building = db.relationship('Building', backref=db.backref('households', cascade='all, delete-orphan'))
+    building = db.relationship('BuildingBasic', backref=db.backref('households', cascade='all, delete-orphan'))

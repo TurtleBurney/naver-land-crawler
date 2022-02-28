@@ -21,7 +21,7 @@ def create_app():
     # ORM
     db.init_app(app)
     migrate.init_app(app, db)
-    from .models import building, household, price, issue
+    from .models import household, price, issue, region, building_basic, building_detail
 
     # Blueprint
     from .views import main_views, building_views, issue_views, updated_info_views
