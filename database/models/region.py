@@ -1,5 +1,6 @@
 from app import db
 
+
 class Region(db.Model):
     region_code = db.Column(db.String(50), primary_key=True)
     city = db.Column(db.String(10), nullable=False)

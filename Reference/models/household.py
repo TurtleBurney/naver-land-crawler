@@ -35,7 +35,7 @@ class Household(Base):
     floor = Column(Integer())
     supply_area = Column(Float())  # 공급면적
     private_area = Column(Float())  # 전용면적
-    window_side = Column(String(32))  # 방향(거실기준) 
+    window_side = Column(String(32))  # 방향(거실기준)
     link = Column(String(200))  # 매물 링크
 
     # relationship

@@ -23,7 +23,7 @@ class Price(Base):
         id              : Integer           PK      FALSE
         contract_type   : Enum                      FALSE
         base_price      : Integer                   FALSE
-        higher_price    : Integer                   TRUE   
+        higher_price    : Integer                   TRUE
         monthly_rent    : Integer                   TRUE<조건부>
     relationship
         Household       : household.id      FK      FALSE
