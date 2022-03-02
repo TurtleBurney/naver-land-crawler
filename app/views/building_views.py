@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template
-from app.models.building_basic import BuildingBasic
+from database.models.building_basic import BuildingBasic
 
 bp_building = Blueprint('building', __name__, url_prefix='/building')
 
