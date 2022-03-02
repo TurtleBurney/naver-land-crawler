@@ -1,8 +1,7 @@
 from flask import Blueprint, url_for
 from werkzeug.utils import redirect
-from app.models.building_basic import BuildingBasic
-from app.models.household import Household
-# 경로가 왜 app부터 시작할까..??
+from database.models.building_basic import BuildingBasic
+from database.models.household import Household
 
 bp = Blueprint('main', __name__, url_prefix='/')
 
