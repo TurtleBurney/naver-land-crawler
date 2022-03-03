@@ -1,7 +1,7 @@
 from flask import render_template, request, redirect, url_for
 
 from app import db
-from app.forms import IssueForm
+from app.source.issue_form import IssueForm
 from app.views.blueprint import bp_issue
 
 from database.models.issue import Issue
