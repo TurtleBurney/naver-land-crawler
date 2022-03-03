@@ -22,10 +22,10 @@ def connect_database(app):
 
 def register_blueprints(app):
     # Blueprint
-    import app.views.blueprint as blueprint
+    from app.views import main, issue, updated_info, building
 
-    app.register_blueprint(blueprint.bp_main)
+    app.register_blueprint(main.bp)
 
-    app.register_blueprint(blueprint.bp_issue)
-    app.register_blueprint(blueprint.bp_updated)
-    app.register_blueprint(blueprint.bp_building)
+    app.register_blueprint(issue.bp_issue)
+    app.register_blueprint(updated_info.bp_updated)
+    app.register_blueprint(building.bp_building)
