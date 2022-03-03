@@ -5,14 +5,14 @@ from flask import Flask
 from app.configs import config
 from app.source.db import connect_database, register_blueprints
 
-
-def run():
+def create_app():
     app = Flask(__name__)
     app.config.from_object(config)
 
     connect_database(app)
     register_blueprints(app)
 
+    return app
 
 if __name__ == "__main__":
-    run()
+    create_app()
