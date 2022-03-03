@@ -3,6 +3,8 @@ naver crawler
 
 """
 import json
+
+from flask import app
 import utils
 import requests
 from bs4 import BeautifulSoup
@@ -18,13 +20,13 @@ class NaverLandCrawler:
         self.baseURL = "https://m.land.naver.com/complex"
 
     # Cralwer function
-    def get_building_json(self, code: str) -> json:
+    def get_building_list(self, code: str) -> json:
         url = self.building_list_url(code)
         response = self.get_request(url)
         return response.json()
 
-    def get_building_detail_text(self, hscpNo: str) -> str:
-        url = self.building_detail_url(hscpNo)
+    def get_building_detail_html(self, building_id: str) -> str:
+        url = self.building_detail_url(building_id)
         response = self.get_request(url)
         return response.text
 
@@ -39,30 +41,31 @@ class NaverLandCrawler:
         url = f"{self.baseURL}/ajax/complexListByCortarNo?cortarNo={code}"
         return url
 
-    def building_detail_url(self, hscpNo: str) -> str:
-        url = f"{self.baseURL}/info/{hscpNo}?tradTpCd=A1:B1:B2&ajax=y"
+    def building_detail_url(self, building_id: str) -> str:
+        url = f"{self.baseURL}/info/{building_id}?tradTpCd=A1:B1:B2&ajax=y"
         return url
 
-    # 건물 목록 + 건물 detail 정보 필요
-    def filter_building_info(self, basic_info: dict) -> None:
-        building_info = basic_info["result"][0]
-
-        building_name = building_info["hscpNm"]
-        building_type = building_info["hscpTypeNm"]
-        total_deal = building_info["dealCnt"]
-        total_jeonse = building_info["leaseCnt"]
-        total_wolse = building_info["rentCnt"]
+    def filter_building_detail(self, soup) -> None:
+        building_name = soup.find("strong", "detail_complex_title").text
+        total_household = soup.find_all("span", "detail_data_item")[0].text[:-2]
+        lowest_floor = soup.find_all("span", "data")[1].text
+        highest_floor = soup.find_all("span", "data")[1].text
+        approval_date = soup.find_all("span", "detail_data_item")[2].text
+        total_dong = soup.find_all("span", "detail_data_item")[1].text
+        # number_address = 
+        # road_address = 
+        total_deal = soup.find_all("em", "txt_price")[0].text
+        total_jeonse = soup.find_all("em", "txt_price")[1].text
+        total_wolse = soup.find_all("em", "txt_price")[2].text
+        print(building_name, total_household, lowest_floor, highest_floor, approval_date, total_deal, sep="\n")
 
 
 if __name__ == "__main__":
     crawler = NaverLandCrawler()
-    target_html = crawler.get_building_detail_text("110209")
+    target_html = crawler.get_building_detail_html("110209")
     soup = BeautifulSoup(target_html, "html.parser")
+    crawler.filter_building_detail(soup)
 
     file = open("sample.html", "w", encoding="UTF-8")
     file.write(target_html)
     file.close()
-
-    # 선택의 시간 두둥
-    # 파라미터가 많은 복잡한 url VS html에서 태그찾기
-    # https://m.land.naver.com/cluster/ajax/complexList?itemId=110209&mapKey=&lgeo=21221003332101&rletTpCd=OBYG:ABYG:OPST:APT:JGC&tradTpCd=A1:B1:B2&z=18&lat=37.558609&lon=126.951802&btm=37.5566167&lft=126.9496884&top=37.5606013&rgt=126.9539156&isOnlyIsale=false
