@@ -1,15 +1,15 @@
-from flask import url_for
+from flask import Blueprint, url_for
 from werkzeug.utils import redirect
 
-from app.views.blueprint import bp_main
+bp = Blueprint("main", __name__, url_prefix="/")
 
 
-@bp_main.route("/main")
+@bp.route("/main")
 def print_main():
     return "Main Page"
 
 
-@bp_main.route("/")
+@bp.route("/")
 def index():
 
     return redirect(url_for("building.show_list"))

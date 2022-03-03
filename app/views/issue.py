@@ -1,10 +1,11 @@
-from flask import render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for
 
 from app import db
 from app.source.issue_form import IssueForm
-from app.views.blueprint import bp_issue
 
 from database.models.issue import Issue
+
+bp_issue = Blueprint("issue", __name__, url_prefix="/issue")
 
 
 @bp_issue.route("/list/")

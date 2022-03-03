@@ -1,8 +1,8 @@
-from flask import render_template
-
-from app.views.blueprint import bp_building
+from flask import Blueprint, render_template
 
 from database.models.building_basic import BuildingBasic
+
+bp_building = Blueprint("building", __name__, url_prefix="/building")
 
 
 @bp_building.route("/list/")

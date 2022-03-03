@@ -1,8 +1,8 @@
-from flask import render_template
-
-from app.views.blueprint import bp_updated
+from flask import Blueprint, render_template
 
 from database.models.building_basic import BuildingBasic
+
+bp_updated = Blueprint("updated", __name__, url_prefix="/updated")
 
 
 @bp_updated.route("/list/")
