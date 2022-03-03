@@ -1,7 +1,7 @@
 from flask import Flask
 
 
-# app/confconfig.py에서의 항목 불러옴
+# app/configs/config.py에서의 항목 불러옴
 from app.configs import config
 from app.source.db import connect_database, register_blueprints
 
