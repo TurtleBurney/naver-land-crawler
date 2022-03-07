@@ -2,13 +2,10 @@
 naver crawler
 
 """
-import json
-
-from flask import app
-import utils
 import requests
+import utils
 from bs4 import BeautifulSoup
-from urllib import request
+
 
 class NaverLandCrawler:
     """
@@ -20,7 +17,7 @@ class NaverLandCrawler:
         self.baseURL = "https://m.land.naver.com/complex"
 
     # Cralwer function
-    def get_building_list(self, code: str) -> json:
+    def get_building_list(self, code: str) -> "json":
         url = self.building_list_url(code)
         response = self.get_request(url)
         return response.json()
