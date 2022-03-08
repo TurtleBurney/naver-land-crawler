@@ -56,8 +56,8 @@ class Refiner:
     def get_refined_data(self) -> dict:
         return {
             "title": self.title,
-            "details": self.detail,
-            "floors": self.floor,
-            "addresses": self.address,
-            "prices": self.price,
+            "detail": self.detail,
+            "floor": self.floor,
+            "address": self.address,
+            "price": self.price,
         }
