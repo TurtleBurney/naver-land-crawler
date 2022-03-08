@@ -19,6 +19,20 @@ class NaverLandCrawler:
     def __init__(self) -> None:
         self.baseURL = "https://m.land.naver.com/complex"
 
+    def run(self):
+        # TODO : DB에서 region_code 읽어오기
+        sample_region_code = "1141011000"
+        building_list = self.get_building_list(sample_region_code)
+
+        # TODO : 반복문으로 building_id마다 크롤링
+        sample_building = building_list['result'][0]
+        sample_building_id = sample_building['hscpNo'] # 110209
+        target_html = self.get_building_detail_html(sample_building_id)
+
+        # TODO : Building 정보 DB에 넣기
+        data = Refiner(target_html).get_refined_data()
+        building = Building(data)
+
     # Cralwer function
     def get_building_list(self, code: str) -> "json":
         url = self.building_list_url(code)
@@ -30,13 +44,7 @@ class NaverLandCrawler:
         response = self.get_request(url)
         return response.text
 
-    # API Request
-    def get_request(self, url: str) -> requests.Response:
-        header = utils.setup_header()
-        response = requests.get(url, headers=header, allow_redirects=False)
-        return response
-
-    # URL
+    # Target url information
     def building_list_url(self, code: str) -> str:
         url = f"{self.baseURL}/ajax/complexListByCortarNo?cortarNo={code}"
         return url
@@ -45,13 +53,15 @@ class NaverLandCrawler:
         url = f"{self.baseURL}/info/{building_id}?tradTpCd=A1:B1:B2&ajax=y"
         return url
 
+    # API request
+    def get_request(self, url: str) -> requests.Response:
+        header = utils.setup_header()
+        response = requests.get(url, headers=header, allow_redirects=False)
+        return response
+
 
 if __name__ == "__main__":
+    # naver 부동산 정보 크롤링
     crawler = NaverLandCrawler()
-
-    building_list = crawler.get_building_list("1141011000")
-    # 반복문으로 building_id마다 크롤링 예정
-    target_html = crawler.get_building_detail_html("110209")
-
-    data = Refiner(target_html).get_refined_data()
-    building = Building(data)
+    crawler.run()
+    
