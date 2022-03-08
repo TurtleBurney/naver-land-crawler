@@ -48,8 +48,10 @@ class NaverLandCrawler:
 
 if __name__ == "__main__":
     crawler = NaverLandCrawler()
+
     building_list = crawler.get_building_list("1141011000")
     # 반복문으로 building_id마다 크롤링 예정
     target_html = crawler.get_building_detail_html("110209")
+
     data = Refiner(target_html).get_refined_data()
     building = Building(data)
