@@ -1,7 +1,7 @@
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 
-from app.main import create_app
+from app.source import create_app
 
 # Deprecated
 db = SQLAlchemy()
