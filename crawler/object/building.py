@@ -1,20 +1,20 @@
 class Building:
     def __init__(self, data: dict):
-        self.building_name = data["title"]["title"]
+        self.building_name = data["title"]["building_name"]
 
         self.total_household = data["detail"]["total_household"]
         self.total_dong = data["detail"]["total_dong"]
         self.approval_date = data["detail"]["approval_date"]
 
-        self.lowest_floor = data["floor"]["low"]
-        self.highest_floor = data["floor"]["high"]
+        self.lowest_floor = data["floor"]["lowest"]
+        self.highest_floor = data["floor"]["highest"]
 
         self.land_address = data["address"]["land"]
         self.road_address = data["address"]["road"]
 
-        self.total_deal = data["price"]["deal"]
-        self.total_jeonse = data["price"]["jeonse"]
-        self.total_wolse = data["price"]["wolse"]
+        self.deal_count = data["contract"]["deal"]
+        self.jeonse_count = data["contract"]["jeonse"]
+        self.wolse_count = data["contract"]["wolse"]
 
     def get_info(self) -> dict:
         return {
@@ -30,14 +30,14 @@ class Building:
             "land_address": self.land_address,
             "road_address": self.road_address,
 
-            "total_deal": self.total_deal,
-            "total_jeonse": self.total_jeonse,
-            "total_wolse": self.total_wolse,
+            "deal_count": self.deal_count,
+            "jeonse_count": self.jeonse_count,
+            "wolse_count": self.wolse_count,
         }
 
-    def get_price_info(self) -> dict:
+    def get_contract_info(self) -> dict:
         return {
-            "total_deal": self.total_deal,
-            "total_jeonse": self.total_jeonse,
-            "total_wolse": self.total_wolse,
+            "deal_count": self.deal_count,
+            "jeonse_count": self.jeonse_count,
+            "wolse_count": self.wolse_count,
         }

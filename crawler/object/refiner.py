@@ -11,7 +11,7 @@ class Refiner:
         self.refine_address(
             tags["addresses"][2].text.split("addr")[1].split("realPriceInfoYn")[0]
         )
-        self.refine_price(tags["prices"])
+        self.refine_contract(tags["contracts"])
 
     def parse_html(self, html: str) -> dict:
         soup = BeautifulSoup(html, "html.parser")
@@ -21,12 +21,12 @@ class Refiner:
             "details": soup.find_all("span", "detail_data_item"),
             "floors": soup.find_all("span", "data"),
             "addresses": soup.find_all("script", type="text/javascript"),
-            "prices": soup.find_all("em", "txt_price"),
+            "contracts": soup.find_all("em", "txt_price"),
         }
         return tags
 
     def refine_title(self, title_tag: dict):
-        self.title = {"title": title_tag.text}
+        self.title = {"building_name": title_tag.text}
 
     def refine_detail(self, detail_tag: dict):
         self.detail = {
@@ -37,7 +37,7 @@ class Refiner:
 
     def refine_floor(self, floor_tag: dict):
         splitted_floor = floor_tag.split("/")
-        self.floor = {"low": splitted_floor[0], "high": splitted_floor[1][:-1]}
+        self.floor = {"lowest": splitted_floor[0], "highest": splitted_floor[1][:-1]}
 
     def refine_address(self, address_tag: dict):
         splitted_address = address_tag.split(",")
@@ -46,11 +46,11 @@ class Refiner:
             "road": splitted_address[-2].split("'")[1],
         }
 
-    def refine_price(self, price_tag: dict):
-        self.price = {
-            "deal": price_tag[0].text,
-            "jeonse": price_tag[1].text,
-            "wolse": price_tag[2].text,
+    def refine_contract(self, contract_tag: dict):
+        self.contract = {
+            "deal": contract_tag[0].text,
+            "jeonse": contract_tag[1].text,
+            "wolse": contract_tag[2].text,
         }
 
     def get_refined_data(self) -> dict:
@@ -59,5 +59,5 @@ class Refiner:
             "detail": self.detail,
             "floor": self.floor,
             "address": self.address,
-            "price": self.price,
+            "contract": self.contract,
         }
