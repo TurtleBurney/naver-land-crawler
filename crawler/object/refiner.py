@@ -25,32 +25,32 @@ class Refiner:
         }
         return tags
 
-    def refine_title(self, tags: dict):
-        self.title = {"title": tags["title"].text}
+    def refine_title(self, title_tag: dict):
+        self.title = {"title": title_tag.text}
 
-    def refine_detail(self, tags: dict):
+    def refine_detail(self, detail_tag: dict):
         self.detail = {
-            "total_household": tags["details"][0].text[:-2],
-            "total_dong": tags["details"][1].text,
-            "approval_date": tags["details"][2].text,
+            "total_household": detail_tag[0].text[:-2],
+            "total_dong": detail_tag[1].text[2:][:-1],
+            "approval_date": detail_tag[2].text,
         }
 
-    def refine_floor(self, tags: dict):
-        splitted_floor = tags.split("/")
+    def refine_floor(self, floor_tag: dict):
+        splitted_floor = floor_tag.split("/")
         self.floor = {"low": splitted_floor[0], "high": splitted_floor[1][:-1]}
 
-    def refine_address(self, tags: dict):
-        splitted_address = tags.split(",")
+    def refine_address(self, address_tag: dict):
+        splitted_address = address_tag.split(",")
         self.address = {
             "land": splitted_address[0][4:-2],
             "road": splitted_address[-2].split("'")[1],
         }
 
-    def refine_price(self, tags: dict):
+    def refine_price(self, price_tag: dict):
         self.price = {
-            "deal": tags["prices"][0].text,
-            "jeonse": tags["prices"][1].text,
-            "wolse": tags["prices"][2].text,
+            "deal": price_tag[0].text,
+            "jeonse": price_tag[1].text,
+            "wolse": price_tag[2].text,
         }
 
     def get_refined_data(self) -> dict:
