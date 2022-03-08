@@ -6,14 +6,16 @@ from app.source.db import connect_database, register_blueprints
 
 
 TEST_CONFIG = {
-    'TESTING': True,
+    "TESTING": True,
 }
 
-@pytest.fixture(scope='session')
+
+@pytest.fixture(scope="session")
 def app():
     app = create_app(TEST_CONFIG)
     return app
 
-@pytest.fixture(scope='session')
+
+@pytest.fixture(scope="session")
 def app_client(app):
     return app.test_client()
