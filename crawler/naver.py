@@ -25,8 +25,8 @@ class NaverLandCrawler:
         building_list = self.get_building_list(sample_region_code)
 
         # TODO : 반복문으로 building_id마다 크롤링
-        sample_building = building_list['result'][0]
-        sample_building_id = sample_building['hscpNo'] # 110209
+        sample_building = building_list["result"][0]
+        sample_building_id = sample_building["hscpNo"]  # 110209
         target_html = self.get_building_detail_html(sample_building_id)
 
         # TODO : Building 정보 DB에 넣기
@@ -64,4 +64,3 @@ if __name__ == "__main__":
     # naver 부동산 정보 크롤링
     crawler = NaverLandCrawler()
     crawler.run()
-    

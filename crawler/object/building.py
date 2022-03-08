@@ -19,17 +19,13 @@ class Building:
     def get_info(self) -> dict:
         return {
             "building_name": self.building_name,
-
             "total_household": self.total_household,
             "total_dong": self.total_dong,
             "approval_date": self.approval_date,
-
             "lowest_floor": self.lowest_floor,
             "highest_floor": self.highest_floor,
-
             "land_address": self.land_address,
             "road_address": self.road_address,
-
             "deal_count": self.deal_count,
             "jeonse_count": self.jeonse_count,
             "wolse_count": self.wolse_count,
