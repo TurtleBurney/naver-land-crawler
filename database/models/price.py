@@ -6,12 +6,13 @@ class Price(db.Model):
     sale_type = db.Column(
         db.Enum("Deal", "Jeonse", "Wolse", name="sale_type_enum"), nullable=False
     )
-    min_price = db.Column(db.String(50), nullable=False)
-    max_price = db.Column(db.String(50), nullable=False)
-    wolse_price = db.Column(db.String(50), nullable=True)
+    
+    # 단위 : 만 원
+    min_price = db.Column(db.String(10), nullable=False)
+    max_price = db.Column(db.String(10), nullable=False)
+    wolse_price = db.Column(db.String(10), nullable=True)
 
     # Foreign Key
     fk_house_id = db.Column(
         db.Integer, db.ForeignKey("household.household_id", ondelete="CASCADE")
     )
-
