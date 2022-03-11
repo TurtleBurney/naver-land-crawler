@@ -13,12 +13,11 @@ class Household(db.Model):
     updated_at = db.Column(db.DateTime(timezone=True), onupdate=func.now())
 
     # Foreign key
-    building_id = db.Column(
-        db.Integer, db.ForeignKey("building_basic.building_id", ondelete="CASCADE")
+    fk_building_id = db.Column(
+        db.String(50), db.ForeignKey("building.building_id", ondelete="CASCADE")
     )
 
     # Back Reference
-    # building 삭제시 관련 households 모두 삭제
-    building = db.relationship(
-        "BuildingBasic", backref=db.backref("households", cascade="all, delete-orphan")
+    prices = db.relationship(
+        "Price", backref=db.backref("household", cascade="all, delete-orphan")
     )

@@ -13,12 +13,7 @@ class Price(db.Model):
     wolse_price = db.Column(db.Integer, nullable=True)
 
     # Foreign Key
-    house_id = db.Column(
+    fk_house_id = db.Column(
         db.Integer, db.ForeignKey("household.household_id", ondelete="CASCADE")
     )
 
-    # Back Reference
-    # household 삭제시 관련 price 모두 삭제
-    household = db.relationship(
-        "Household", backref=db.backref("prices", cascade="all, delete-orphan")
-    )

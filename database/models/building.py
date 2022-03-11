@@ -28,6 +28,6 @@ class Building(db.Model):
     )
 
     # Back Reference
-    building = db.relationship(
-        "Household", backref=db.backref("households", cascade="all, delete-orphan")
+    households = db.relationship(
+        "Household", backref=db.backref("building", cascade="all, delete-orphan")
     )
