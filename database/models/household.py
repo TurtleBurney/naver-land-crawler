@@ -11,7 +11,7 @@ class Household(db.Model):
     private_area = db.Column(db.Float, nullable=False)
     household_url = db.Column(db.String(200), nullable=False)
     created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
-    updated_at = db.Column(db.DateTime(timezone=True), onupdate=func.now())
+    updated_at = db.Column(db.DateTime(timezone=True), server_onupdate=func.now())
 
     # Foreign key
     fk_building_id = db.Column(
