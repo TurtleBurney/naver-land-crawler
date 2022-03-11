@@ -15,8 +15,7 @@ def connect_database(app):
         price,
         issue,
         region,
-        building_basic,
-        building_detail,
+        building,
     )
 
 
