@@ -14,7 +14,7 @@ def show_list():
 
 
 @bp_building.route("/detail/<int:building_id>/")
-def detail(building_id):
+def show_detail(building_id):
     building = Building.query.get_or_404(building_id)
 
     return render_template("building/building_detail.html", building=building)
