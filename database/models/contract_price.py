@@ -1,10 +1,10 @@
 from app import db
 
 
-class Price(db.Model):
-    price_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    sale_type = db.Column(
-        db.Enum("Deal", "Jeonse", "Wolse", name="sale_type_enum"), nullable=False
+class ContractPrice(db.Model):
+    contract_price_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    contract_type = db.Column(
+        db.Enum("Deal", "Jeonse", "Wolse", name="contract_type_enum"), nullable=False
     )
     
     # 단위 : 만 원

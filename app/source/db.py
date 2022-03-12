@@ -10,13 +10,7 @@ def connect_database(app):
     migrate = Migrate()
     migrate.init_app(app, db)
 
-    from database.models import (
-        household,
-        price,
-        issue,
-        region,
-        building,
-    )
+    from database.models import household, issue, region, building, contract_price
 
 
 def register_blueprints(app):
