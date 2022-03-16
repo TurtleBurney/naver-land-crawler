@@ -1,4 +1,5 @@
 import json
+from .region import Region
 
 EXCEPTION = [
     "고양시",
@@ -16,25 +17,7 @@ EXCEPTION = [
 SEJONG = "세종특별자치시"
 
 
-class Region:
-    def __init__(self, code, city, gu=None, dong=None, parent_code=None):
-        self.code = code
-        self.city = city
-        self.gu = gu
-        self.dong = dong
-        self.parent_code = parent_code
-
-    def get(self):
-        return {
-            "region_code": self.code,
-            "city": self.city,
-            "gu": self.gu,
-            "dong": self.dong,
-            "parent_code": self.parent_code,
-        }
-
-
-def read_sigungu_json() -> json:
+def read_region_json(self) -> json:
     with open("./region_code_name.json", "r", encoding="utf-8") as file:
         json_data = json.load(file)
     return json_data
@@ -123,5 +106,6 @@ def get_exception_region_data(code, splitted_address):
 
 
 if __name__ == "__main__":
-    json_data = read_sigungu_json()
-    region_data = get_region_code(json_data)
+    pass
+    # json_data = read_sigungu_json()
+    # region_data = get_region_code(json_data)
