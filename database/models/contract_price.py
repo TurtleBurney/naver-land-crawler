@@ -6,7 +6,7 @@ class ContractPrice(db.Model):
     contract_type = db.Column(
         db.Enum("DEAL", "JEONSE", "WOLSE", name="contract_type_enum"), nullable=False
     )
-    
+
     # 단위 : 만 원
     min_price = db.Column(db.String(10), nullable=False)
     max_price = db.Column(db.String(10), nullable=False)

@@ -29,6 +29,4 @@ class Building(db.Model):
     )
 
     # Back Reference
-    households = db.relationship(
-        "Household", backref=db.backref("building")
-    )
+    households = db.relationship("Household", backref=db.backref("building"))

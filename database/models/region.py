@@ -7,7 +7,7 @@ class Region(db.Model):
     city = db.Column(db.String(10), nullable=False)
     gu = db.Column(db.String(10), nullable=True)
     dong = db.Column(db.String(10), nullable=True)
-    
+
     parent_region_code = db.Column(db.String(50), nullable=True)
 
     # Back Reference
