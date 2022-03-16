@@ -1,6 +1,5 @@
 import json
 
-# from database.models.region import Region
 EXCEPTION = [
     "고양시",
     "성남시",
@@ -17,6 +16,24 @@ EXCEPTION = [
 SEJONG = "세종특별자치시"
 
 
+class Region:
+    def __init__(self, code, city, gu=None, dong=None, parent_code=None):
+        self.code = code
+        self.city = city
+        self.gu = gu
+        self.dong = dong
+        self.parent_code = parent_code
+
+    def get(self):
+        return {
+            "region_code": self.code,
+            "city": self.city,
+            "gu": self.gu,
+            "dong": self.dong,
+            "parent_code": self.parent_code,
+        }
+
+
 def read_sigungu_json() -> json:
     with open("./region_code_name.json", "r", encoding="utf-8") as file:
         json_data = json.load(file)
@@ -30,85 +47,81 @@ def get_region_code(json_data: json) -> list:
     for code in region_codes:
         address = region_data[code]
         splitted_address = address.split(" ")
-        # 예외에 해당 안한는 일반 CASE
         # 시/도 단위
         if len(splitted_address) == 1:
-            regions.append(
-                {
-                    "region_code": code,
-                    "city": address,
-                }
-            )
+            region = Region(code, city=address)
+            regions.append(region.get())
+
             continue
         if splitted_address[0] != SEJONG and splitted_address[1] not in EXCEPTION:
             # 구/군 단위
             if len(splitted_address) == 2:
                 parent_code = code[:2] + "00000000"
-                regions.append(
-                    {
-                        "region_code": code,
-                        "city": splitted_address[0],
-                        "gu": splitted_address[1],
-                        "parent_code": parent_code,
-                    }
+                region = Region(
+                    code,
+                    city=splitted_address[0],
+                    gu=splitted_address[1],
+                    parent_code=parent_code,
                 )
+                regions.append(region.get())
             # 동/읍/면 단위
             elif len(splitted_address) == 3:
                 parent_code = code[:5] + "00000"
-                regions.append(
-                    {
-                        "region_code": code,
-                        "city": splitted_address[0],
-                        "gu": splitted_address[1],
-                        "dong": splitted_address[2],
-                        "parent_code": parent_code,
-                    }
+                region = Region(
+                    code,
+                    city=splitted_address[0],
+                    gu=splitted_address[1],
+                    dong=splitted_address[2],
+                    parent_code=parent_code,
                 )
+                regions.append(region.get())
         # 세종시 및 예외시들의 경우
         else:
             # 세종시
             if splitted_address[0] == SEJONG:
-                if len(splitted_address) != 2:
-                    continue
-                # ex) 세종특별자치시 소정면, 세종특별자치시 반곡동
-                parent_code = code[:5] + "00000"
-                regions.append(
-                    {
-                        "region_code": code,
-                        "city": splitted_address[0],
-                        "dong": splitted_address[1],
-                        "parent_code": parent_code,
-                    }
-                )
-            # 도에 속한 구 있는 시들
-            else:
                 if len(splitted_address) == 2:
-                    continue
-                elif len(splitted_address) == 3:
-                    parent_code = code[:2] + "00000000"
-                    gu = splitted_address[1] + " " + splitted_address[2]
-                    regions.append(
-                        {
-                            "region_code": code,
-                            "city": splitted_address[0],
-                            "gu": gu,
-                            "parent_code": parent_code,
-                        }
-                    )
-                else:
-                    parent_code = code[:4] + "000000"
-                    gu = splitted_address[1] + " " + splitted_address[2]
-                    regions.append(
-                        {
-                            "region_code": code,
-                            "city": splitted_address[0],
-                            "gu": gu,
-                            "dong": splitted_address[3],
-                            "parent_code": parent_code,
-                        }
-                    )
+                    sejong_region = get_sejong_data(code, splitted_address)
+                    regions.append(sejong_region.get())
+            else:
+                # 도에 속한 구 있는 시들
+                region = get_exception_region_data(code, splitted_address)
+                regions.append(region.get())
+    return regions
+
+
+def get_sejong_data(code, splitted_address):
+    # ex) 세종특별자치시 소정면, 세종특별자치시 반곡동
+    parent_code = code[:5] + "00000"
+    region = Region(
+        code,
+        city=splitted_address[0],
+        dong=splitted_address[1],
+        parent_code=parent_code,
+    )
+    return region
+
+
+def get_exception_region_data(code, splitted_address):
+    region = Region(code, city=None)
+    if len(splitted_address) == 2:
+        pass
+    elif len(splitted_address) == 3:
+        parent_code = code[:2] + "00000000"
+        gu = splitted_address[1] + " " + splitted_address[2]
+        region = Region(code, city=splitted_address[0], gu=gu, parent_code=parent_code)
+    else:
+        parent_code = code[:4] + "000000"
+        gu = splitted_address[1] + " " + splitted_address[2]
+        region = Region(
+            code,
+            city=splitted_address[0],
+            gu=gu,
+            dong=splitted_address[3],
+            parent_code=parent_code,
+        )
+    return region
 
 
 if __name__ == "__main__":
     json_data = read_sigungu_json()
-    get_region_code(json_data)
+    region_data = get_region_code(json_data)
