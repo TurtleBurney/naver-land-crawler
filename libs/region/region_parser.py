@@ -17,6 +17,26 @@ EXCEPTION = [
 SEJONG = "세종특별자치시"
 
 
+class RegionExtractor:
+    def __init__(self, region_file_path) -> None:
+        self.region_file_path = region_file_path
+
+    def run(self):
+        region_data = self.load_region_data(self.region_file_path)
+        region_data = self.extract_region_data(region_data)
+        return region_data
+
+    def load_region_data(self, file_path):
+        region_data = None
+        return region_data
+
+    def extract_region_data(self, region_data):
+        # 세종시 문자열 처리
+
+        # 도시구 문자열 처리
+        return region_data
+
+
 class RegionParser:
     def __init__(self):
         self.regions = []
@@ -71,16 +91,13 @@ class RegionParser:
         self.regions.append(region.get())
 
     def get_exception_region_data(self, code: list, splitted_address: list):
-        if len(splitted_address) == 2:
-            pass
-
-        elif len(splitted_address) == 3:
+        if len(splitted_address) == 3:
             gu = splitted_address[1] + " " + splitted_address[2]
 
             region = Region(code, city=splitted_address[0], gu=gu, parent_code=code[:2])
             self.regions.append(region.get())
 
-        else:
+        elif len(splitted_address) == 4:
             gu = splitted_address[1] + " " + splitted_address[2]
 
             region = Region(
