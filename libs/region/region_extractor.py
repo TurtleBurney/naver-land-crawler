@@ -2,7 +2,7 @@ import json
 
 
 class RegionExtractor:
-    def __init__(self, region_file_path) -> None:
+    def __init__(self, region_file_path="./data/region_code_name.json") -> None:
         self.region_file_path = region_file_path
         self.dosigu = [
             "고양시",
