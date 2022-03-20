@@ -2,6 +2,10 @@ import json
 from region import Region
 from region_extractor import RegionExtractor
 
+SIDO = 0
+SIGUGUN = 1
+DONGEUP = 2
+
 
 class RegionParser:
     def __init__(self):
@@ -16,36 +20,39 @@ class RegionParser:
 
     def get_region_code(self, region_data: dict):
         for code, address in region_data.items():
-            splitted_address = address.split(" ")
+            region_names = address.split(" ")
 
             # 시/도 단위
-            if len(splitted_address) == 1:
-                self.get_level1_data(code, splitted_address)
+            if len(region_names) == 1:
+                self.get_level1_data(code, region_names)
 
             # 세종시
-            elif len(splitted_address) == 2:
-                self.get_level2_data(code, splitted_address)
+            elif len(region_names) == 2:
+                self.get_level2_data(code, region_names)
 
             # 도내 구를 가진 시
-            elif len(splitted_address) == 3:
-                self.get_level3_data(code, splitted_address)
+            elif len(region_names) == 3:
+                self.get_level3_data(code, region_names)
 
-    def get_level1_data(self, code, splitted_address: list):
-        region = Region(code, city=splitted_address[0])
+    def get_level1_data(self, code, region_names: list):
+        region = Region(code, city=region_names[SIDO])
         self.regions.append(region.get())
 
-    def get_level2_data(self, code, splitted_address: list):
+    def get_level2_data(self, code, region_names: list):
         region = Region(
-            code, city=splitted_address[0], gu=splitted_address[1], parent_code=code[:2]
+            code,
+            city=region_names[SIDO],
+            gu=region_names[SIGUGUN],
+            parent_code=code[:2],
         )
         self.regions.append(region.get())
 
-    def get_level3_data(self, code, splitted_address: list):
+    def get_level3_data(self, code, region_names: list):
         region = Region(
             code,
-            city=splitted_address[0],
-            gu=splitted_address[1],
-            dong=splitted_address[2],
+            city=region_names[SIDO],
+            gu=region_names[SIGUGUN],
+            dong=region_names[DONGEUP],
             parent_code=code[:5],
         )
         self.regions.append(region.get())
