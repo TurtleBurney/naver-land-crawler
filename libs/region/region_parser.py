@@ -26,11 +26,11 @@ class RegionParser:
             if len(region_names) == 1:
                 self.get_level1_data(code, region_names)
 
-            # 세종시
+            # 시도 + 시구군
             elif len(region_names) == 2:
                 self.get_level2_data(code, region_names)
 
-            # 도내 구를 가진 시
+            # 시도 + 시구군 + 동읍면
             elif len(region_names) == 3:
                 self.get_level3_data(code, region_names)
 
