@@ -4,13 +4,13 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 migrate = Migrate()
 
+
 def connect_database(app):
     # db객체가 declarative_base 대신 역할함(models에서 얘 상속받음)
     db.init_app(app)
     migrate.init_app(app, db)
 
     from database.models import household, issue, region, building, contract_price
-
 
 
 def register_blueprints(app):

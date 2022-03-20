@@ -23,6 +23,4 @@ class Household(db.Model):
     )
 
     # Back Reference
-    contract_prices = db.relationship(
-        "ContractPrice", backref=db.backref("household")
-    )
+    contract_prices = db.relationship("ContractPrice", backref=db.backref("household"))
