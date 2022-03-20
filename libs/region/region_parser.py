@@ -15,7 +15,7 @@ class RegionParser:
         file_path = "./data/region_code_name.json"
         region_data = RegionExtractor(file_path).run()
         self.get_region_code(region_data)
-        with open("test_1.json", "w", encoding="utf-8") as file:
+        with open("test_2.json", "w", encoding="utf-8") as file:
             file.write(json.dumps(self.regions, ensure_ascii=False, indent="\t"))
 
     def get_region_code(self, region_data: dict):
@@ -43,7 +43,6 @@ class RegionParser:
             code,
             city=region_names[SIDO],
             gu=region_names[SIGUGUN],
-            parent_code=code[:2],
         )
         self.regions.append(region.get())
 
@@ -53,7 +52,6 @@ class RegionParser:
             city=region_names[SIDO],
             gu=region_names[SIGUGUN],
             dong=region_names[DONGEUP],
-            parent_code=code[:5],
         )
         self.regions.append(region.get())
 
