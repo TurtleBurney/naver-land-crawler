@@ -1,7 +1,8 @@
 class Region:
-    def __init__(self, code, city, gu=None, dong=None):
+    def __init__(self, code, region_names):
         self.code = code
 
+        city, gu, dong = self.process_region_names(region_names)
         self.city = city
         self.gu = gu
         self.dong = dong
@@ -17,13 +18,23 @@ class Region:
             "parent_code": self.parent_code,
         }
 
+    def process_region_names(self, region_names):
+        region_names += [None, None]
+
+        city = region_names[0]
+        gu = region_names[1]
+        dong = region_names[2]
+
+        return city, gu, dong
+
     def process_parent_code(self, code):
         parent_code = None
 
-        # level 3
+        # ~ dongeup
         if self.dong is not None:
             parent_code = self.encode_region(code[:5])
-        # level 2
+
+        # ~ sigugun
         elif self.gu is not None:
             parent_code = self.encode_region(code[:2])
 
