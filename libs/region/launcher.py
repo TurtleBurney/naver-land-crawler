@@ -7,7 +7,7 @@ sys.path.append(
 )
 
 from region_parser import RegionParser
-from db_store import DbStorer
+from libs.db_store import DbStorer
 from database.models.region import Region
 
 
