@@ -1,10 +1,8 @@
 import sys, os
 
-sys.path.append(
-    os.path.dirname(
-        os.path.abspath(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
-    )
-)
+SCRIPT_DIR = os.path.dirname(__file__)
+ROOT_DIR = os.path.abspath(os.path.join(SCRIPT_DIR, "../../"))
+sys.path.insert(0, ROOT_DIR)
 
 from region_parser import RegionParser
 from db_storer import DBStorer
