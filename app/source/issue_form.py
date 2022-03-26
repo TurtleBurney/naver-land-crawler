@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
-
-from wtforms import StringField, PasswordField, SubmitField, TextAreaField, EmailField
-from wtforms.validators import DataRequired, Length, Email
+from wtforms import (EmailField, PasswordField, StringField, SubmitField,
+                     TextAreaField)
+from wtforms.validators import DataRequired, Email, Length
 
 
 class IssueForm(FlaskForm):

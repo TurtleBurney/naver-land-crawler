@@ -1,6 +1,7 @@
-from models import Base
+from sqlalchemy import Column, DateTime, Integer, String, Text
 from sqlalchemy.sql import func
-from sqlalchemy import Column, Integer, String, Text, DateTime
+
+from models import Base
 
 
 class Issue(Base):

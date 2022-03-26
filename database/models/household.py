@@ -1,7 +1,8 @@
-from models import Base
-from sqlalchemy.sql import func
+from sqlalchemy import Column, DateTime, Float, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
-from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Float
+from sqlalchemy.sql import func
+
+from models import Base
 
 
 class Household(Base):

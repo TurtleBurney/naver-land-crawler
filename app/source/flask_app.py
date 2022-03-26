@@ -1,6 +1,5 @@
 from flask import Flask
 
-
 # app/configs/config.py에서의 항목 불러옴
 from app.configs import config
 from app.source.db import connect_database, register_blueprints
@@ -21,7 +20,7 @@ def create_app(cfg=None):
 
 def register_blueprints(app):
     # Blueprint
-    from app.views import main, issue, updated_info, building
+    from app.views import building, issue, main, updated_info
 
     app.register_blueprint(main.bp)
 

@@ -1,7 +1,9 @@
-import os
 import json
-from region import Region
+import os
+
 from region_extractor import RegionExtractor
+
+from region import Region
 
 SIDO = 0
 SIGUGUN = 1
