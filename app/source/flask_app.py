@@ -19,5 +19,16 @@ def create_app(cfg=None):
     return app
 
 
+def register_blueprints(app):
+    # Blueprint
+    from app.views import main, issue, updated_info, building
+
+    app.register_blueprint(main.bp)
+
+    app.register_blueprint(issue.bp_issue)
+    app.register_blueprint(updated_info.bp_updated)
+    app.register_blueprint(building.bp_building)
+
+
 if __name__ == "__main__":
     create_app()
