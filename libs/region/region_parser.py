@@ -1,3 +1,4 @@
+import os
 import json
 from region import Region
 from region_extractor import RegionExtractor
@@ -9,7 +10,9 @@ DONGEUP = 2
 
 class RegionParser:
     def __init__(self):
-        self.input_file_path = "./data/region_code_name.json"
+        self.input_file_path = (
+            str(os.getcwd()) + "/libs/region" + "/data/region_code_name.json"
+        )
         self.output_file_path = "test_2.json"
         self.regions = []
 
