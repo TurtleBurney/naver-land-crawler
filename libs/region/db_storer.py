@@ -1,5 +1,4 @@
-from app.source.db import db
-from app.source.flask_app import create_app
+from database import session
 
 
 class DBStorer:
@@ -8,7 +7,5 @@ class DBStorer:
 
     def add_data(self, data):
         self.data = data
-        app = create_app()
-        app.app_context().push()
-        db.session.bulk_insert_mappings(self.model, data)
-        db.session.commit()
+        session.bulk_insert_mappings(self.model, data)
+        session.commit()
