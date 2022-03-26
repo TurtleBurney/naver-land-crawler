@@ -1,7 +1,7 @@
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 
-from models import Base
+from database.models import Base
 
 
 class Region(Base):

@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Enum, ForeignKey, Integer, String
 
-from models import Base
+from database.models import Base
 
 
 class ContractPrice(Base):
