@@ -1,4 +1,3 @@
-from app.source.db import db, migrate
+from sqlalchemy.ext.declarative import declarative_base
 
-# TODO : Need to Structure Refactoring
-__all__ = [db, migrate]
+Base = declarative_base()
