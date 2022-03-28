@@ -8,7 +8,7 @@ bp_issue = Blueprint("issue", __name__, url_prefix="/issue")
 
 @bp_issue.route("/list/")
 def get_list():
-    issues = Issue.query.all()
+    issues = None
 
     return render_template("issue/issue_list.html", issue_list=issues)
 
