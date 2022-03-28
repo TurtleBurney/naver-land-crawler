@@ -5,7 +5,7 @@ from app.configs import config
 
 
 def create_app(cfg=None):
-    app = Flask(__name__)
+    app = Flask(__name__, template_folder="../templates", static_folder="../static")
     app.config.from_object(config)
 
     if cfg:
@@ -28,4 +28,4 @@ def register_blueprints(app):
 
 
 if __name__ == "__main__":
-    create_app()
+    app = create_app()
