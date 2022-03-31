@@ -9,3 +9,4 @@ class DBStorer:
         self.data = data
         session.bulk_insert_mappings(self.model, data)
         session.commit()
+        session.close()
