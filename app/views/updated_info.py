@@ -1,6 +1,5 @@
-from flask import Blueprint, render_template
-
 from database.models.building import Building
+from flask import Blueprint, render_template
 
 bp_updated = Blueprint("updated", __name__, url_prefix="/updated")
 

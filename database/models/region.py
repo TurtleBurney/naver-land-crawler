@@ -1,14 +1,19 @@
-from . import db
+from sqlalchemy import Column, String
+from sqlalchemy.orm import relationship
+
+from database.models import Base
 
 
-class Region(db.Model):
-    region_code = db.Column(db.String(50), primary_key=True)
+class Region(Base):
+    __tablename__ = "region"
 
-    city = db.Column(db.String(10), nullable=False)
-    gu = db.Column(db.String(10), nullable=True)
-    dong = db.Column(db.String(10), nullable=True)
+    region_code = Column(String(50), primary_key=True)
 
-    parent_region_code = db.Column(db.String(50), nullable=True)
+    city = Column(String(10), nullable=False)
+    gu = Column(String(10), nullable=True)
+    dong = Column(String(10), nullable=True)
+
+    parent_region_code = Column(String(50), nullable=True)
 
     # Back Reference
-    buildings = db.relationship("Building", backref=db.backref("region"))
+    buildings = relationship("Building", backref="region")

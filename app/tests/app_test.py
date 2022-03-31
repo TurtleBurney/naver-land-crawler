@@ -2,8 +2,6 @@ import pytest
 
 from app.configs import testing as config
 from app.source import create_app
-from app.source.db import connect_database, register_blueprints
-
 
 TEST_CONFIG = {
     "TESTING": True,

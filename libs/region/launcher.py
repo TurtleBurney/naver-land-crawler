@@ -1,12 +1,13 @@
-import sys, os
+import os
+import sys
 
 SCRIPT_DIR = os.path.dirname(__file__)
 ROOT_DIR = os.path.abspath(os.path.join(SCRIPT_DIR, "../../"))
 sys.path.insert(0, ROOT_DIR)
 
-from region_parser import RegionParser
-from db_storer import DBStorer
 from database.models.region import Region
+from db_storer import DBStorer
+from region_parser import RegionParser
 
 
 def run():

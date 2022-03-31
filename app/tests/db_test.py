@@ -1,10 +1,8 @@
 import pytest
-
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-
 from alembic.command import upgrade as alembic_upgrade
 from alembic.config import Config as alembic_Config
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 
 from app.configs import testing as config
 

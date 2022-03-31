@@ -1,16 +1,14 @@
-from flask import Blueprint, render_template, request, redirect, url_for
-
-from app import db
-from app.source.issue_form import IssueForm
-
 from database.models.issue import Issue
+from flask import Blueprint, redirect, render_template, request, url_for
+
+from app.source.issue_form import IssueForm
 
 bp_issue = Blueprint("issue", __name__, url_prefix="/issue")
 
 
 @bp_issue.route("/list/")
 def get_list():
-    issues = Issue.query.all()
+    issues = None
 
     return render_template("issue/issue_list.html", issue_list=issues)
 
@@ -34,9 +32,7 @@ def create_issue():
             issue_pw=form.issue_pw.data,
             writer=form.writer.data,
         )
-
-        db.session.add(new_issue)
-        db.session.commit()
+        # 외부로 데이터 빼내어 저장은 다른 부분에서 로직으로 처리
         return redirect(url_for("issue.get_list"))
     else:
         return render_template("issue/issue_post.html", form=form)
