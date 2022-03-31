@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 from sqlalchemy import engine_from_config, pool
 
 load_dotenv(verbose=True)
+
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
@@ -13,7 +14,7 @@ config = context.config
 if not config.get_main_option("sqlalchemy.url"):
     config.set_main_option(
         "sqlalchemy.url",
-        "postgresql://{username}:{password}@{host}:{port}/{db_name}".format(
+        "postgresql+psycopg2://{username}:{password}@{host}:{port}/{db_name}".format(
             username=os.getenv("ALEMBIC_USERNAME"),
             password=os.getenv("ALEMBIC_PASSWORD"),
             host=os.getenv("ALEMBIC_HOST"),
