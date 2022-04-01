@@ -8,7 +8,6 @@ class BuildingCrawler(BaseCrawler):
     def __init__(self, region_code: str):
         super.__init__(self)
         self.region_code = region_code
-        # 이 코드를 가지고 있어야 하는가??
 
     def run(self):
         building_list = self.get_building_list(self.region_code)
@@ -18,7 +17,7 @@ class BuildingCrawler(BaseCrawler):
         target_html = self.get_building_detail_html(sample_building_id)
 
         data = Refiner(target_html).get_refined_data()
-        building = Building(data)
+        building = Building(data, self.region_code, sample_building_id)
         return building
 
     # Cralwer function

@@ -1,5 +1,8 @@
 class Building:
-    def __init__(self, data: dict):
+    def __init__(self, data: dict, region_code: str, building_code: str):
+        self.building_code = building_code
+        self.region_code = region_code
+
         self.building_name = data["title"]["building_name"]
 
         self.total_household = data["detail"]["total_household"]
@@ -18,6 +21,8 @@ class Building:
 
     def get_info(self) -> dict:
         return {
+            "building_code": self.building_code,
+            "region_code": self.region_code,
             "building_name": self.building_name,
             "total_household": self.total_household,
             "total_dong": self.total_dong,
