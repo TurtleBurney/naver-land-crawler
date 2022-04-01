@@ -13,7 +13,7 @@ class NaverLandCrawler:
     """
 
     def __init__(self) -> None:
-        self.baseURL = "https://m.land.naver.com/complex"
+        pass
 
     def run(self):
         # TODO : DB에서 region_code 읽어오기
