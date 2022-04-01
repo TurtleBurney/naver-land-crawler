@@ -1,12 +1,12 @@
-from object.building import Building
-from object.refiner import Refiner
-from utils.api_request import get_request
+from base_crawler import BaseCrawler
 
-# BaseCrawler 생성해 상속받기
-# BaseCrawler에 base_url setting하기
-class BuildingCrawler:
+from object.refiner import Refiner
+from object.building import Building
+
+
+class BuildingCrawler(BaseCrawler):
     def __init__(self, region_code: str):
-        super.__init__(self, ...)
+        super.__init__(self)
         self.region_code = region_code
         # 이 코드를 가지고 있어야 하는가??
 
@@ -24,12 +24,12 @@ class BuildingCrawler:
     # Cralwer function
     def get_building_list(self, code: str) -> "json":
         url = self.building_list_url(code)
-        response = get_request(url)
+        response = self.get_request(url)
         return response.json()
 
     def get_building_detail_html(self, building_id: str) -> str:
         url = self.building_detail_url(building_id)
-        response = get_request(url)
+        response = self.get_request(url)
         return response.text
 
     # Target url information
