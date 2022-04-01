@@ -1,12 +1,10 @@
 from base_crawler import BaseCrawler
-
-from object.refiner import Refiner
-from object.building import Building
+from object import Building, Household, Refiner
 
 
 class BuildingCrawler(BaseCrawler):
     def __init__(self, region_code: str):
-        super.__init__(self)
+        super().__init__()
         self.region_code = region_code
 
     def run(self):
