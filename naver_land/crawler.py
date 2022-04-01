@@ -20,8 +20,8 @@ class NaverLandCrawler:
         sample_region_code = "1141011000"
 
         # TODO : 반복문으로 building_id마다 크롤링
-        building = BuildingCrawler(sample_region_code)
-
+        building = BuildingCrawler(sample_region_code).run()
+        household = HouseholdCrawler(building).get_household_list()
         # TODO : Building 정보 DB에 넣기
 
 
