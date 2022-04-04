@@ -60,6 +60,7 @@ class HouseholdCrawler(BaseCrawler):
             household_raw = household_raw_list[i]
 
             household_data = {
+                "household_code": household_raw["atclNo"],
                 "building_dong": household_raw["bildNm"][:-1],
                 "floor": household_raw["flrInfo"],
                 "direction": household_raw["direction"],
