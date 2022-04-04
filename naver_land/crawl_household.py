@@ -1,8 +1,8 @@
 import json
-from pprint import pprint
 from base_crawler import BaseCrawler
 from object import Building, Household
 
+# TODO : enum class 생성해 관리
 sale_type_enum = {"deal": "A1", "jeonse": "B1", "wolse": "B2"}
 
 
@@ -14,31 +14,47 @@ class HouseholdCrawler(BaseCrawler):
         self.contract_cnt = building.get_contract_info()
 
     def run(self):
-        pass
+        total_households = []
 
-    def get_household_list(self):
-        sample_sale_type = sale_type_enum["deal"]
+        for sale_type in sale_type_enum:
+            print(f"{sale_type} 시작")
+            total_households += self.get_household_list(sale_type)
+            print(f"{sale_type} 종료")
+        return total_households
+
+    def get_household_list(self, sale_type):
         household_list = []
+
         # 한 페이지당 20개의 매물 존재
-        total_page_num = (int(self.contract_cnt["deal_count"]) // 20) + 1
+        sale_type_count = self.add_str_count(sale_type)
+        total_page_num = (int(self.contract_cnt[sale_type_count]) // 20) + 1
 
         for page_num in range(1, total_page_num + 1):
-            url = self.household_list_url(sample_sale_type, page_num)
+            url = self.household_list_url(sale_type_enum[sale_type], page_num)
             response = self.get_request(url)
 
-            self.save_household_info(response.json(), page_num)
+            iter_count = self.calculate_iter_count(page_num, sale_type)
 
-            household_info = self.parse_household_info(response.json(), page_num)
+            household_info = self.parse_household_info(response.json(), iter_count)
             household_list += household_info
         return household_list
 
-    def parse_household_info(self, response: json, page_num):
+    # Building에서 거래 방식에 따른 매물 개수 찾을때의 키 형성
+    def add_str_count(self, sale_type):
+        return sale_type + "_count"
+
+    # 20개 다 안 도는 경우 있어 iter_count 지정
+    def calculate_iter_count(self, page_num, sale_type):
+        iter_count = 20
+        sale_type_count = self.add_str_count(sale_type)
+
+        if page_num == int(self.contract_cnt[sale_type_count]) // 20 + 1:
+            iter_count = int(self.contract_cnt[sale_type_count]) % 20
+        return iter_count
+
+    def parse_household_info(self, response: json, iter_count):
         household_raw_list = response["result"]["list"]
         household_info = []
-
-        iter_count = 20
-        if page_num == int(self.contract_cnt["deal_count"]) // 20 + 1:
-            iter_count = int(self.contract_cnt["deal_count"]) % 20
 
         for i in range(iter_count):
             household_raw = household_raw_list[i]
@@ -50,6 +66,7 @@ class HouseholdCrawler(BaseCrawler):
                 "supply_area": household_raw["spc1"],
                 "private_area": household_raw["spc2"],
             }
+
             household = Household(household_data, self.building_code)
             household_info.append(household)
         return household_info
