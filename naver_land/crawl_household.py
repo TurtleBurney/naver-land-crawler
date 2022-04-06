@@ -13,7 +13,7 @@ class HouseholdCrawler(BaseCrawler):
         self.region_code = building.region_code
         self.contract_cnt = building.get_contract_info()
 
-    def run(self):
+    def run(self) -> list:
         total_households = []
 
         for sale_type in sale_type_enum:
@@ -22,7 +22,7 @@ class HouseholdCrawler(BaseCrawler):
             print(f"{sale_type} 종료")
         return total_households
 
-    def get_household_list(self, sale_type):
+    def get_household_list(self, sale_type: str) -> list:
         household_list = []
 
         # 한 페이지당 20개의 매물 존재
@@ -40,11 +40,11 @@ class HouseholdCrawler(BaseCrawler):
         return household_list
 
     # Building에서 거래 방식에 따른 매물 개수 찾을때의 키 형성
-    def add_str_count(self, sale_type):
+    def add_str_count(self, sale_type: str) -> str:
         return sale_type + "_count"
 
     # 20개 다 안 도는 경우 있어 iter_count 지정
-    def calculate_iter_count(self, page_num, sale_type):
+    def calculate_iter_count(self, page_num: int, sale_type: str) -> int:
         iter_count = 20
         sale_type_count = self.add_str_count(sale_type)
 
@@ -52,7 +52,7 @@ class HouseholdCrawler(BaseCrawler):
             iter_count = int(self.contract_cnt[sale_type_count]) % 20
         return iter_count
 
-    def parse_household_info(self, response: json, iter_count):
+    def parse_household_info(self, response: json, iter_count: int) -> list:
         household_raw_list = response["result"]["list"]
         household_info = []
 
@@ -72,11 +72,11 @@ class HouseholdCrawler(BaseCrawler):
             household_info.append(household)
         return household_info
 
-    def save_household_info(self, response: json, page_num):
+    def save_household_info(self, response: json, page_num: int) -> None:
         with open(f"./temp_household_{page_num}.json", "w", encoding="utf-8") as file:
             file.write(json.dumps(response, ensure_ascii=False, indent="\t"))
 
-    def household_list_url(self, sale_type: str, page_num):
+    def household_list_url(self, sale_type: str, page_num: int) -> str:
         household_base_url = f"{self.baseURL}/getComplexArticleList?"
         household_region_url = (
             f"hscpNo={self.building_code}&cortarNo={self.region_code}"

@@ -12,10 +12,10 @@ class NaverLandCrawler:
 
     """
 
-    def __init__(self) -> None:
+    def __init__(self):
         pass
 
-    def run(self):
+    def run(self) -> None:
         # TODO : DB에서 region_code 읽어오기
         sample_region_code = "1141011000"
 

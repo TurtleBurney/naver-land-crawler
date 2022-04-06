@@ -7,7 +7,7 @@ class BuildingCrawler(BaseCrawler):
         super().__init__()
         self.region_code = region_code
 
-    def run(self):
+    def run(self) -> Building:
         building_list = self.get_building_list(self.region_code)
 
         sample_building = building_list["result"][0]
@@ -19,7 +19,7 @@ class BuildingCrawler(BaseCrawler):
         return building
 
     # Cralwer function
-    def get_building_list(self, code: str) -> "json":
+    def get_building_list(self, code: str) -> json:
         url = self.building_list_url(code)
         response = self.get_request(url)
         return response.json()
