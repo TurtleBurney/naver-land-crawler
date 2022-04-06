@@ -28,9 +28,9 @@ class HouseholdCrawler(BaseCrawler):
         household_list = []
 
         # 한 페이지당 20개의 매물 존재
-        sale_type_count = self.add_str_count(sale_type)
+        sale_type_key = self.add_str_count(sale_type)
         total_page_num = (
-            int(self.contract_cnt[sale_type_count]) // ITEM_COUNT_PER_REQUEST
+            int(self.contract_cnt[sale_type_key]) // ITEM_COUNT_PER_REQUEST
         ) + 1
 
         for page_num in range(1, total_page_num + 1):
@@ -50,15 +50,11 @@ class HouseholdCrawler(BaseCrawler):
     # 20개 다 안 도는 경우 있어 iter_count 지정
     def calculate_iter_count(self, page_num: int, sale_type: str) -> int:
         iter_count = ITEM_COUNT_PER_REQUEST
-        sale_type_count = self.add_str_count(sale_type)
+        sale_type_key = self.add_str_count(sale_type)
+        sale_type_count = int(self.contract_cnt[sale_type_key])
 
-        if (
-            page_num
-            == int(self.contract_cnt[sale_type_count]) // ITEM_COUNT_PER_REQUEST + 1
-        ):
-            iter_count = (
-                int(self.contract_cnt[sale_type_count]) % ITEM_COUNT_PER_REQUEST
-            )
+        if page_num == sale_type_count // ITEM_COUNT_PER_REQUEST + 1:
+            iter_count = sale_type_count % ITEM_COUNT_PER_REQUEST
         return iter_count
 
     def parse_household_info(self, response: json, iter_count: int) -> list:
