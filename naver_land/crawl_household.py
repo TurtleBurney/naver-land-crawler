@@ -12,6 +12,7 @@ class HouseholdCrawler(BaseCrawler):
         super().__init__()
         self.building_code = building.building_code
         self.region_code = building.region_code
+
         self.contract_cnt = building.get_contract_info()
 
     def run(self) -> list:
@@ -86,6 +87,7 @@ class HouseholdCrawler(BaseCrawler):
 
     def household_list_url(self, sale_type: str, page_num: int) -> str:
         household_base_url = f"{self.baseURL}/getComplexArticleList?"
+
         household_region_url = (
             f"hscpNo={self.building_code}&cortarNo={self.region_code}"
         )
