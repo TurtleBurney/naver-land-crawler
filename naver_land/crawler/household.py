@@ -1,5 +1,5 @@
 import json
-from base_crawler import BaseCrawler
+from crawler.base import BaseCrawler
 from object import Building, Household
 
 ITEM_COUNT_PER_REQUEST = 20

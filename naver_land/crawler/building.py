@@ -1,4 +1,4 @@
-from base_crawler import BaseCrawler
+from crawler.base import BaseCrawler
 from object import Building, Household, Refiner
 
 
@@ -19,7 +19,7 @@ class BuildingCrawler(BaseCrawler):
         return building
 
     # Cralwer function
-    def get_building_list(self, code: str) -> json:
+    def get_building_list(self, code: str) -> "json":
         url = self.building_list_url(code)
         response = self.get_request(url)
         return response.json()

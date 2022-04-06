@@ -2,8 +2,8 @@
 naver crawler
 
 """
-from crawl_building import BuildingCrawler
-from crawl_household import HouseholdCrawler
+from crawler.building import BuildingCrawler
+from crawler.household import HouseholdCrawler
 
 
 class NaverLandCrawler:
