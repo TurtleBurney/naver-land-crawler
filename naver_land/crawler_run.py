@@ -2,15 +2,17 @@
 naver crawler
 
 """
+from logger import init_logger
 from crawler import (
     BuildingCrawler,
+    ContractPriceCrawler,
     HouseholdCrawler,
     HouseholdPriceResponse,
-    ContractPriceCrawler,
 )
 
-
 sale_type_enum = {"deal": "A1", "jeonse": "B1", "wolse": "B2"}
+
+log = init_logger()
 
 
 class NaverLandCrawler:
@@ -42,8 +44,8 @@ class NaverLandCrawler:
             for page_num in range(1, page_count + 1):
                 # get page response
                 response = household_price_response.get_response_json(page_num)
-                print(f"{sale_type} {page_num}/{page_count} 진행")
-
+                # print(f"{sale_type} {page_num}/{page_count} 진행")
+                log.info(f"{sale_type} {page_num}/{page_count} 진행")
                 household = HouseholdCrawler(building).get_household_list(
                     sale_type, page_num, response
                 )
