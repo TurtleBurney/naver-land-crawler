@@ -15,33 +15,11 @@ class HouseholdCrawler(BaseCrawler):
 
         self.contract_cnt = building.get_contract_info()
 
-    def run(self) -> list:
-        total_households = []
+    def get_household_list(self, sale_type: str, page_num: int, response: json) -> list:
+        iter_count = self.calculate_iter_count(page_num, sale_type)
 
-        for sale_type in sale_type_enum:
-            print(f"{sale_type} 시작")
-            total_households += self.get_household_list(sale_type)
-            print(f"{sale_type} 종료")
-        return total_households
-
-    def get_household_list(self, sale_type: str) -> list:
-        household_list = []
-
-        # 한 페이지당 20개의 매물 존재
-        sale_type_key = self.add_str_count(sale_type)
-        total_page_num = (
-            int(self.contract_cnt[sale_type_key]) // ITEM_COUNT_PER_REQUEST
-        ) + 1
-
-        for page_num in range(1, total_page_num + 1):
-            url = self.household_list_url(sale_type_enum[sale_type], page_num)
-            response = self.get_request(url)
-
-            iter_count = self.calculate_iter_count(page_num, sale_type)
-
-            household_info = self.parse_household_info(response.json(), iter_count)
-            household_list += household_info
-        return household_list
+        household_info = self.parse_household_info(response, iter_count)
+        return household_info
 
     # Building에서 거래 방식에 따른 매물 개수 찾을때의 키 형성
     def add_str_count(self, sale_type: str) -> str:
@@ -80,14 +58,3 @@ class HouseholdCrawler(BaseCrawler):
     def save_household_info(self, response: json, page_num: int) -> None:
         with open(f"./temp_household_{page_num}.json", "w", encoding="utf-8") as file:
             file.write(json.dumps(response, ensure_ascii=False, indent="\t"))
-
-    def household_list_url(self, sale_type: str, page_num: int) -> str:
-        household_base_url = f"{self.baseURL}/getComplexArticleList?"
-
-        household_region_url = (
-            f"hscpNo={self.building_code}&cortarNo={self.region_code}"
-        )
-        household_detail_url = (
-            f"&tradTpCd={sale_type}&order=point_&showR0=N&page={page_num}"
-        )
-        return household_base_url + household_region_url + household_detail_url
