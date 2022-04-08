@@ -2,8 +2,13 @@
 naver crawler
 
 """
-from crawler import BuildingCrawler, HouseholdCrawler, HouseholdPriceResponse
-from pprint import pprint
+from crawler import (
+    BuildingCrawler,
+    HouseholdCrawler,
+    HouseholdPriceResponse,
+    ContractPriceCrawler,
+)
+
 
 sale_type_enum = {"deal": "A1", "jeonse": "B1", "wolse": "B2"}
 
@@ -37,15 +42,16 @@ class NaverLandCrawler:
             for page_num in range(1, page_count + 1):
                 # get page response
                 response = household_price_response.get_response_json(page_num)
-                print(f"{sale_type} {page_num} 진행")
+                print(f"{sale_type} {page_num}/{page_count} 진행")
 
                 household = HouseholdCrawler(building).get_household_list(
                     sale_type, page_num, response
                 )
-                # contract_price =
+                contract_price = ContractPriceCrawler().get_contract_price_list(
+                    response
+                )
                 total_households += household
-        print(len(total_households))
-        pprint(total_households)
+                total_contract_prices += contract_price
         # total_contract_prices += contract_price
         # TODO : Building 정보 DB에 넣기
 
