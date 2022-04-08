@@ -1,6 +1,5 @@
-from object import Building
 from crawler import BaseCrawler
-
+from object import Building
 
 ITEM_COUNT_PER_REQUEST = 20
 sale_type_enum = {"deal": "A1", "jeonse": "B1", "wolse": "B2"}

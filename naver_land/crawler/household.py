@@ -1,4 +1,5 @@
 import json
+
 from crawler.base import BaseCrawler
 from object import Building, Household
 
@@ -38,7 +39,6 @@ class HouseholdCrawler(BaseCrawler):
     def parse_household_info(self, response: json, iter_count: int) -> list:
         household_raw_list = response["result"]["list"]
         household_info = []
-
         for i in range(iter_count):
             household_raw = household_raw_list[i]
 
