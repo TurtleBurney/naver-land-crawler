@@ -18,27 +18,25 @@ class BuildingCrawler(BaseCrawler):
         logger.info(f"Region Setting >> Start Crawl {region_code}")
 
     def crawl(self) -> Building:
-        # Building 여러개 가져와야함 지금 큰일남
-        # TODO : sample이 아니라 반복문 돌며 가져와야 함
-
         # Step 1
         url = self.building_list_url(self.region_code)
         json_response = self.send_request(url).json()
 
-        building_list = json_response
-        sample_building = building_list["result"][0]
-        sample_building_id = sample_building["hscpNo"]  # 110209
+        building_list = json_response["result"]
+        buildings = list()
 
         # Step 2
-        url = self.building_detail_url(sample_building_id)
-        text_response = self.send_request(url).text
+        for building in building_list:
+            building_id = building["hscpNo"]
 
-        data = Refiner(text_response).get_refined_data()
-        building = Building(data, self.region_code, sample_building_id)
+            url = self.building_detail_url(building_id)
+            text_response = self.send_request(url).text
 
-        buildings = list()
-        buildings.append(building)
+            data = Refiner(text_response).get_refined_data()
+            building = Building(data, self.region_code, building_id)
 
+            buildings.append(building)
+        logger.info(f"Building Crawled >> total_num : {len(buildings)}")
         return buildings
 
     # Target url information

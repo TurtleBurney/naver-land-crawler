@@ -4,6 +4,8 @@ import logging
 def init_logger():
     logger = logging.getLogger()
 
+    if len(logger.handlers) > 0:
+        return logger
     formatter = logging.Formatter(
         "%(asctime)s - %(levelname)s - %(message)s", "%Y-%m-%d %H:%M:%S"
     )
