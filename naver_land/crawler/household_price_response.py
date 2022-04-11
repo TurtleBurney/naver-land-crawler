@@ -1,43 +1,35 @@
 from crawler import BaseCrawler
 from object import Building
 
-ITEM_COUNT_PER_REQUEST = 20
 sale_type_enum = {"deal": "A1", "jeonse": "B1", "wolse": "B2"}
 
 
-class HouseholdPriceResponse(BaseCrawler):
-    def __init__(self, building: Building, sale_type: str):
+class HouseholdPriceCrawler(BaseCrawler):
+    def __init__(self):
         super().__init__()
+        self.region_code = None
+        self.building_code = None
+
+        self.sale_type = None
+
+    def set_building_info(self, building: Building) -> None:
         self.region_code = building.region_code
         self.building_code = building.building_code
 
-        self.contract_cnt = building.get_contract_info()
-
+    def set_sale_type(self, sale_type: str) -> None:
         self.sale_type = sale_type
 
-    def get_response_json(self, page_num: int) -> "json":
-        url = self.household_list_url(sale_type_enum[self.sale_type], page_num)
+    def crawl(self, page_num) -> "json":
+        url = self.household_list_url(page_num)
+        json_response = self.send_request(url).json()
 
-        response = self.get_request(url)
-        return response.json()
+        return json_response
 
-    def household_list_url(self, sale_type: str, page_num: int) -> str:
-        household_base_url = f"{self.baseURL}/getComplexArticleList?"
+    def household_list_url(self, page_num: int) -> str:
+        base_url = f"{self.baseURL}/getComplexArticleList?"
+        region_url = f"hscpNo={self.building_code}&cortarNo={self.region_code}"
+        detail_url = f"&tradTpCd={self.sale_type}&order=point_&showR0=N&page={page_num}"
 
-        household_region_url = (
-            f"hscpNo={self.building_code}&cortarNo={self.region_code}"
-        )
-        household_detail_url = (
-            f"&tradTpCd={sale_type}&order=point_&showR0=N&page={page_num}"
-        )
-        return household_base_url + household_region_url + household_detail_url
+        url = base_url + region_url + detail_url
 
-    # Building에서 거래 방식에 따른 매물 개수 찾을때의 키 형성
-    def add_str_count(self, sale_type: str) -> str:
-        return sale_type + "_count"
-
-    def calculate_total_page_num(self, sale_type_key: str) -> int:
-        total_page_num = (
-            int(self.contract_cnt[sale_type_key]) // ITEM_COUNT_PER_REQUEST
-        ) + 1
-        return total_page_num
+        return url

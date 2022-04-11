@@ -1,3 +1,8 @@
+import math
+
+CONTRACT_COUNTS_PER_PAGE = 20
+
+
 class Building:
     def __init__(self, data: dict, region_code: str, building_code: str):
         self.building_code = building_code
@@ -36,9 +41,20 @@ class Building:
             "wolse_count": self.wolse_count,
         }
 
-    def get_contract_info(self) -> dict:
+    def get_contract_count(self) -> dict:
         return {
             "deal_count": self.deal_count,
             "jeonse_count": self.jeonse_count,
             "wolse_count": self.wolse_count,
         }
+
+    def get_household_page_num(self, sale_type) -> int:
+        contract_info = self.get_contract_count()
+
+        sale_type_count_key = sale_type + "_count"
+        contract_count = contract_info[sale_type_count_key]
+
+        pages = int(contract_count) / CONTRACT_COUNTS_PER_PAGE
+        page_num = math.ceil(pages)
+
+        return page_num

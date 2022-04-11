@@ -1,33 +1,45 @@
 from crawler.base import BaseCrawler
-from object import Building, Household, Refiner
+from logger import init_logger
+from object import Building, Refiner
+
+logger = init_logger()
 
 
 class BuildingCrawler(BaseCrawler):
-    def __init__(self, region_code: str):
+    def __init__(self):
         super().__init__()
+        self.region_code = None
+
+        logger.info("Crawler initated >> .... Crawl")
+
+    def set_region(self, region_code: str) -> None:
         self.region_code = region_code
 
-    def run(self) -> Building:
-        building_list = self.get_building_list(self.region_code)
+        logger.info(f"Region Setting >> Start Crawl {region_code}")
 
+    def crawl(self) -> Building:
+        # Building 여러개 가져와야함 지금 큰일남
+        # TODO : sample이 아니라 반복문 돌며 가져와야 함
+
+        # Step 1
+        url = self.building_list_url(self.region_code)
+        json_response = self.send_request(url).json()
+
+        building_list = json_response
         sample_building = building_list["result"][0]
         sample_building_id = sample_building["hscpNo"]  # 110209
-        target_html = self.get_building_detail_html(sample_building_id)
 
-        data = Refiner(target_html).get_refined_data()
+        # Step 2
+        url = self.building_detail_url(sample_building_id)
+        text_response = self.send_request(url).text
+
+        data = Refiner(text_response).get_refined_data()
         building = Building(data, self.region_code, sample_building_id)
-        return building
 
-    # Cralwer function
-    def get_building_list(self, code: str) -> "json":
-        url = self.building_list_url(code)
-        response = self.get_request(url)
-        return response.json()
+        buildings = list()
+        buildings.append(building)
 
-    def get_building_detail_html(self, building_id: str) -> str:
-        url = self.building_detail_url(building_id)
-        response = self.get_request(url)
-        return response.text
+        return buildings
 
     # Target url information
     def building_list_url(self, code: str) -> str:

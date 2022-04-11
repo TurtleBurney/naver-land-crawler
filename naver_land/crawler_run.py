@@ -2,17 +2,13 @@
 naver crawler
 
 """
+from crawler import (BuildingCrawler, ContractPriceCrawler, HouseholdCrawler,
+                     HouseholdPriceCrawler)
 from logger import init_logger
-from crawler import (
-    BuildingCrawler,
-    ContractPriceCrawler,
-    HouseholdCrawler,
-    HouseholdPriceResponse,
-)
 
 sale_type_enum = {"deal": "A1", "jeonse": "B1", "wolse": "B2"}
 
-log = init_logger()
+logger = init_logger()
 
 
 class NaverLandCrawler:
@@ -28,33 +24,49 @@ class NaverLandCrawler:
         # TODO : DB에서 region_code 읽어오기
         sample_region_code = "1141011000"
 
+        households = []
+        contract_prices = []
+
+        household_cralwer = HouseholdCrawler()
+        contract_price_crawler = ContractPriceCrawler()
+        householdPriceResponse = HouseholdPriceCrawler()
+
         # TODO : 반복문으로 building_id마다 크롤링
-        building = BuildingCrawler(sample_region_code).run()
-        total_households = []
-        total_contract_prices = []
+        building_crawler = BuildingCrawler()
+        building_crawler.set_region(sample_region_code)
+        buildings = building_crawler.crawl()
 
-        for sale_type in sale_type_enum:
-            household_price_response = HouseholdPriceResponse(building, sale_type)
+        for building in buildings:
+            building_code = building.building_code
 
-            sale_type_key = household_price_response.add_str_count(sale_type)
-            page_count = household_price_response.calculate_total_page_num(
-                sale_type_key
-            )
+            householdPriceResponse.set_building_info(building)
 
-            for page_num in range(1, page_count + 1):
-                # get page response
-                response = household_price_response.get_response_json(page_num)
-                # print(f"{sale_type} {page_num}/{page_count} 진행")
-                log.info(f"{sale_type} {page_num}/{page_count} 진행")
-                household = HouseholdCrawler(building).get_household_list(
-                    sale_type, page_num, response
-                )
-                contract_price = ContractPriceCrawler().get_contract_price_list(
-                    response
-                )
-                total_households += household
-                total_contract_prices += contract_price
-        # total_contract_prices += contract_price
+            for sale_type in sale_type_enum:
+                householdPriceResponse.set_sale_type(sale_type)
+                household_page_num = building.get_household_page_num(sale_type)
+
+                for page_idx in range(household_page_num):
+                    page_index = page_idx + 1
+
+                    response = householdPriceResponse.crawl(page_index)
+
+                    # Household From response
+                    raw_response_list = response["result"]["list"]
+                    for raw_response in raw_response_list:
+                        household_data = household_cralwer.refine(raw_response)
+                        household = household_cralwer.get_household(
+                            household_data, building_code
+                        )
+                        households.append(household)
+
+                        contract_price_data = contract_price_crawler.refine(
+                            raw_response
+                        )
+                        contract_price = contract_price_crawler.get_contract_price(
+                            contract_price_data
+                        )
+                        contract_prices.append(contract_price)
+
         # TODO : Building 정보 DB에 넣기
 
 
