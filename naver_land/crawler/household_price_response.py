@@ -26,9 +26,11 @@ class HouseholdPriceCrawler(BaseCrawler):
         return json_response
 
     def household_list_url(self, page_num: int) -> str:
+        sale_type_code = sale_type_enum[self.sale_type]
+
         base_url = f"{self.baseURL}/getComplexArticleList?"
         region_url = f"hscpNo={self.building_code}&cortarNo={self.region_code}"
-        detail_url = f"&tradTpCd={self.sale_type}&order=point_&showR0=N&page={page_num}"
+        detail_url = f"&tradTpCd={sale_type_code}&order=point_&showR0=N&page={page_num}"
 
         url = base_url + region_url + detail_url
 

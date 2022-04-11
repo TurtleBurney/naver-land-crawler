@@ -58,3 +58,6 @@ class Building:
         page_num = math.ceil(pages)
 
         return page_num
+
+    def __repr__(self):
+        return f"<building_code : {self.building_code}, building_name : {self.building_name}>"
