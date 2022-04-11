@@ -12,6 +12,6 @@ class BaseCrawler:
         }
         return header
 
-    def get_request(self, url: str) -> requests.Response:
+    def send_request(self, url: str) -> requests.Response:
         response = requests.get(url, headers=self.header, allow_redirects=False)
         return response
