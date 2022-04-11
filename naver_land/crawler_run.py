@@ -9,7 +9,9 @@ from crawler import (
     HouseholdPriceCrawler,
 )
 import time
+from logger import init_logger
 
+logger = init_logger()
 sale_type_enum = {"deal": "A1", "jeonse": "B1", "wolse": "B2"}
 
 
@@ -42,7 +44,7 @@ class NaverLandCrawler:
             building_code = building.building_code
 
             householdPriceResponse.set_building_info(building)
-
+            household_count = 0
             for sale_type in sale_type_enum:
                 householdPriceResponse.set_sale_type(sale_type)
                 household_page_num = building.get_household_page_num(sale_type)
@@ -61,6 +63,7 @@ class NaverLandCrawler:
                             household_data, building_code
                         )
                         households.append(household)
+                        household_count += 1
 
                         contract_price_data = contract_price_crawler.refine(
                             raw_response
@@ -69,6 +72,9 @@ class NaverLandCrawler:
                             contract_price_data
                         )
                         contract_prices.append(contract_price)
+            logger.info(
+                f"building {building_code} Crawled >> household_count : {household_count}"
+            )
             time.sleep(3)
         # TODO : Building 정보 DB에 넣기
 

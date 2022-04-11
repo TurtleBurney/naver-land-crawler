@@ -36,6 +36,7 @@ class BuildingCrawler(BaseCrawler):
             building = Building(data, self.region_code, building_id)
 
             buildings.append(building)
+        logger.info(f"Building Crawled >> total_num : {len(buildings)}")
         return buildings
 
     # Target url information
