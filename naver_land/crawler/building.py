@@ -17,7 +17,7 @@ class BuildingCrawler(BaseCrawler):
 
         logger.info(f"Region Setting >> Start Crawl {region_code}")
 
-    def crawl(self) -> Building:
+    def crawl(self) -> list:
         # Step 1
         url = self.building_list_url(self.region_code)
         json_response = self.send_request(url).json()
