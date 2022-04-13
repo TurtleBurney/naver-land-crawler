@@ -3,7 +3,7 @@ import requests
 
 class BaseCrawler:
     def __init__(self):
-        self.baseURL = "https://m.land.naver.com/complex"
+        self.naverURL = "https://m.land.naver.com"
         self.header = self.setup_header()
 
     def setup_header(self) -> dict:

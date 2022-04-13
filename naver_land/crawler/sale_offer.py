@@ -35,5 +35,5 @@ class SaleOfferCrawler(BaseCrawler):
         return sale_offers
 
     def sale_offer_url(self, household_code: str) -> str:
-        url = f"https://m.land.naver.com/article/getSameAddrArticle?articleNo={household_code}"
+        url = f"{self.naverURL}/article/getSameAddrArticle?articleNo={household_code}"
         return url

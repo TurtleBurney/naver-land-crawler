@@ -7,6 +7,10 @@ sale_type_enum = {"deal": "A1", "jeonse": "B1", "wolse": "B2"}
 class HouseholdCrawler(BaseCrawler):
     def __init__(self):
         super().__init__()
+        self.region_code = None
+        self.building_code = None
+
+        self.sale_type = None
 
     def set_building_info(self, region_code: str, building_code: str) -> None:
         self.region_code = region_code
@@ -41,7 +45,7 @@ class HouseholdCrawler(BaseCrawler):
     def household_list_url(self, page_num: int) -> str:
         sale_type_code = sale_type_enum[self.sale_type]
 
-        base_url = f"{self.baseURL}/getComplexArticleList?"
+        base_url = f"{self.naverURL}/complex/getComplexArticleList?"
         region_url = f"hscpNo={self.building_code}&cortarNo={self.region_code}"
         detail_url = f"&tradTpCd={sale_type_code}&order=point_&showR0=N&page={page_num}"
 
