@@ -35,7 +35,6 @@ class NaverLandCrawler:
 
         building_crawler = BuildingCrawler()
         buildings = self.crawl_building(building_crawler, sample_region_code)
-        time.sleep(1)
 
         for building in buildings:
             household_count = 0
@@ -46,7 +45,6 @@ class NaverLandCrawler:
 
             households += household_list
             household_count += len(household_list)
-            time.sleep(1)
 
             for household in household_list:
                 household_code = household.household_code

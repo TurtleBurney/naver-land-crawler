@@ -1,4 +1,5 @@
 import requests
+import time
 
 
 class BaseCrawler:
@@ -14,4 +15,5 @@ class BaseCrawler:
 
     def send_request(self, url: str) -> requests.Response:
         response = requests.get(url, headers=self.header, allow_redirects=False)
+        time.sleep(2)
         return response
