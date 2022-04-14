@@ -17,7 +17,7 @@ class HouseholdCrawler(BaseCrawler):
         self.building_code = building_code
 
     def set_sale_type(self, sale_type: str) -> None:
-        self.sale_type = sale_type
+        self.sale_type = sale_type_enum[sale_type]
 
     def crawl(self, page_num: int) -> list:
         # Step 1
@@ -43,11 +43,9 @@ class HouseholdCrawler(BaseCrawler):
         return households
 
     def household_list_url(self, page_num: int) -> str:
-        sale_type_code = sale_type_enum[self.sale_type]
-
         base_url = f"{self.naverURL}/complex/getComplexArticleList?"
         region_url = f"hscpNo={self.building_code}&cortarNo={self.region_code}"
-        detail_url = f"&tradTpCd={sale_type_code}&order=point_&showR0=N&page={page_num}"
+        detail_url = f"&tradTpCd={self.sale_type}&order=point_&showR0=N&page={page_num}"
 
         url = base_url + region_url + detail_url
 
