@@ -20,7 +20,9 @@ class NaverLandCrawler:
     """
 
     def __init__(self):
-        pass
+        self.building_crawler = BuildingCrawler()
+        self.household_crawler = HouseholdCrawler()
+        self.sale_offer_crawler = SaleOfferCrawler()
 
     def run(self) -> None:
         # TODO : DB에서 region_code 읽어오기
@@ -29,74 +31,63 @@ class NaverLandCrawler:
         households = []
         sale_offers = []
 
-        household_crawler = HouseholdCrawler()
-        sale_offer_crawler = SaleOfferCrawler()
-
-        building_crawler = BuildingCrawler()
-        buildings = self.crawl_building(building_crawler, SAMPLE_REGION_CODE)
+        buildings = self.crawl_building(SAMPLE_REGION_CODE)
 
         for building in buildings:
-            household_count = 0
-
-            household_list = self.crawl_household(
-                household_crawler, building, SAMPLE_REGION_CODE
-            )
-
-            households += household_list
-            household_count += len(household_list)
-
-            for household in household_list:
-                household_code = household.household_code
-                # TODO : Cralwer도 param으로 넘기는게 맞는가 확인
-                sale_offer_list = self.crawl_sale_offer(
-                    sale_offer_crawler, household_code
-                )
-
-                sale_offers += sale_offer_list
-
+            households += self.crawl_household(building, SAMPLE_REGION_CODE)
             logger.info(
-                f"building {building.building_code} Crawled >> household_count : {household_count}"
+                f"household of building {building.building_code} Crawled >> household_count : {len(households)}"
             )
             time.sleep(3)
+
+        for household in households:
+            household_code = household.household_code
+
+            sale_offers += self.crawl_sale_offer(household_code)
+            logger.info(
+                f"Sale Offer of household {household.household_code} Crawled >> sale_offer_count : {len(sale_offers)}"
+            )
+            time.sleep(3)
+
         # TODO : Building 정보 DB에 넣기
 
-    def crawl_building(
-        self, building_crawler: BuildingCrawler, region_code: str
-    ) -> list:
-        building_crawler.set_region(region_code)
-        buildings = building_crawler.crawl()
+    def crawl_building(self, region_code: str) -> list:
+        crawler = self.building_crawler
+
+        crawler.set_region(region_code)
+        buildings = crawler.crawl()
 
         return buildings
 
     def crawl_household(
         self,
-        household_crawler: HouseholdCrawler,
         building: Building,
         region_code: str,
     ):
+        crawler = self.household_crawler
+
         building_code = building.building_code
 
-        household_crawler.set_building_info(region_code, building_code)
+        crawler.set_building_info(region_code, building_code)
         households_in_building = []
 
         for sale_type in sale_type_enum:
-            household_crawler.set_sale_type(sale_type)
+            crawler.set_sale_type(sale_type)
             household_page_num = building.get_household_page_num(sale_type)
 
             for page_idx in range(household_page_num):
                 page_index = page_idx + 1
 
-                household_list = household_crawler.crawl(page_index)
+                household_list = crawler.crawl(page_index)
                 households_in_building += household_list
 
         return households_in_building
 
-    def crawl_sale_offer(
-        self, sale_offer_crawler: SaleOfferCrawler, household_code: str
-    ) -> list:
-        sale_offer_crawler.set_household(household_code)
+    def crawl_sale_offer(self, household_code: str) -> list:
+        crawler = self.sale_offer_crawler
 
-        sale_offer_list = sale_offer_crawler.crawl()
+        crawler.set_household(household_code)
+        sale_offer_list = crawler.crawl()
         return sale_offer_list
 
 
