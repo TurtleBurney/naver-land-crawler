@@ -3,7 +3,6 @@ naver crawler
 
 """
 import time
-from pprint import pprint
 
 from crawler import BuildingCrawler, HouseholdCrawler, SaleOfferCrawler
 from object import Building
@@ -25,7 +24,7 @@ class NaverLandCrawler:
 
     def run(self) -> None:
         # TODO : DB에서 region_code 읽어오기
-        sample_region_code = "1141011000"
+        SAMPLE_REGION_CODE = "1141011000"
 
         households = []
         sale_offers = []
@@ -34,13 +33,13 @@ class NaverLandCrawler:
         sale_offer_crawler = SaleOfferCrawler()
 
         building_crawler = BuildingCrawler()
-        buildings = self.crawl_building(building_crawler, sample_region_code)
+        buildings = self.crawl_building(building_crawler, SAMPLE_REGION_CODE)
 
         for building in buildings:
             household_count = 0
 
             household_list = self.crawl_household(
-                household_crawler, building, sample_region_code
+                household_crawler, building, SAMPLE_REGION_CODE
             )
 
             households += household_list
@@ -54,7 +53,6 @@ class NaverLandCrawler:
                 )
 
                 sale_offers += sale_offer_list
-                pprint(sale_offer_list)
 
             logger.info(
                 f"building {building.building_code} Crawled >> household_count : {household_count}"
