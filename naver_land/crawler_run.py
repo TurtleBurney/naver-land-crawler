@@ -2,16 +2,14 @@
 naver crawler
 
 """
-from crawler import (
-    BuildingCrawler,
-    ContractPriceCrawler,
-    HouseholdCrawler,
-    HouseholdPriceCrawler,
-)
 import time
+
+from crawler import BuildingCrawler, HouseholdCrawler, SaleOfferCrawler
+from object import Building
 from logger import init_logger
 
 logger = init_logger()
+
 sale_type_enum = {"deal": "A1", "jeonse": "B1", "wolse": "B2"}
 
 
@@ -22,61 +20,74 @@ class NaverLandCrawler:
     """
 
     def __init__(self):
-        pass
+        self.building_crawler = BuildingCrawler()
+        self.household_crawler = HouseholdCrawler()
+        self.sale_offer_crawler = SaleOfferCrawler()
 
     def run(self) -> None:
         # TODO : DB에서 region_code 읽어오기
-        sample_region_code = "1141011000"
+        SAMPLE_REGION_CODE = "1141011000"
 
         households = []
-        contract_prices = []
+        sale_offers = []
 
-        household_cralwer = HouseholdCrawler()
-        contract_price_crawler = ContractPriceCrawler()
-        householdPriceResponse = HouseholdPriceCrawler()
-
-        # TODO : 반복문으로 building_id마다 크롤링
-        building_crawler = BuildingCrawler()
-        building_crawler.set_region(sample_region_code)
-        buildings = building_crawler.crawl()
+        buildings = self.crawl_building(SAMPLE_REGION_CODE)
 
         for building in buildings:
-            building_code = building.building_code
-
-            householdPriceResponse.set_building_info(building)
-            household_count = 0
-            for sale_type in sale_type_enum:
-                householdPriceResponse.set_sale_type(sale_type)
-                household_page_num = building.get_household_page_num(sale_type)
-
-                for page_idx in range(household_page_num):
-                    page_index = page_idx + 1
-
-                    response = householdPriceResponse.crawl(page_index)
-
-                    # Household From response
-                    raw_response_list = response["result"]["list"]
-
-                    for raw_response in raw_response_list:
-                        household_data = household_cralwer.refine(raw_response)
-                        household = household_cralwer.get_household(
-                            household_data, building_code
-                        )
-                        households.append(household)
-                        household_count += 1
-
-                        contract_price_data = contract_price_crawler.refine(
-                            raw_response
-                        )
-                        contract_price = contract_price_crawler.get_contract_price(
-                            contract_price_data
-                        )
-                        contract_prices.append(contract_price)
+            households += self.crawl_household(building, SAMPLE_REGION_CODE)
             logger.info(
-                f"building {building_code} Crawled >> household_count : {household_count}"
+                f"household of building {building.building_code} Crawled >> household_count : {len(households)}"
             )
             time.sleep(3)
+
+        for household in households:
+            household_code = household.household_code
+
+            sale_offers += self.crawl_sale_offer(household_code)
+            logger.info(
+                f"Sale Offer of household {household_code} Crawled >> sale_offer_count : {len(sale_offers)}"
+            )
+            time.sleep(3)
+
         # TODO : Building 정보 DB에 넣기
+
+    def crawl_building(self, region_code: str) -> list:
+        crawler = self.building_crawler
+
+        crawler.set_region(region_code)
+        buildings = crawler.crawl()
+
+        return buildings
+
+    def crawl_household(
+        self,
+        building: Building,
+        region_code: str,
+    ):
+        crawler = self.household_crawler
+
+        building_code = building.building_code
+
+        crawler.set_building_info(region_code, building_code)
+        households = []
+
+        for sale_type in sale_type_enum:
+            crawler.set_sale_type(sale_type)
+            total_pages = building.get_household_page_num(sale_type)
+
+            for page_idx in range(total_pages):
+                page_index = page_idx + 1
+
+                households += crawler.crawl(page_index)
+
+        return households
+
+    def crawl_sale_offer(self, household_code: str) -> list:
+        crawler = self.sale_offer_crawler
+
+        crawler.set_household(household_code)
+        sale_offer_list = crawler.crawl()
+        return sale_offer_list
 
 
 if __name__ == "__main__":

@@ -9,13 +9,10 @@ class Household:
         self.supply_area = data["supply_area"]
         self.private_area = data["private_area"]
 
-        # 차후에 없어질 수도 있음
-        self.household_url = None
-
         self.fk_building_id = building_code
 
     def __str__(self) -> str:
-        return f"<code : {self.household_code}, building_dong : {self.building_dong}, floor : {self.floor}, direction : {self.direction}, supply_area : {self.supply_area}, private_area : {self.private_area}, url : {self.household_url}>"
+        return f"<code : {self.household_code}, building_dong : {self.building_dong}, floor : {self.floor}, direction : {self.direction}, supply_area : {self.supply_area}, private_area : {self.private_area}>"
 
     def __repr__(self) -> str:
-        return f"<code : {self.household_code}, building_dong : {self.building_dong}, floor : {self.floor}, direction : {self.direction}, supply_area : {self.supply_area}, private_area : {self.private_area}, url : {self.household_url}>"
+        return f"<code : {self.household_code}, building_dong : {self.building_dong}, floor : {self.floor}, direction : {self.direction}, supply_area : {self.supply_area}, private_area : {self.private_area}>"

@@ -17,7 +17,7 @@ class BuildingCrawler(BaseCrawler):
 
         logger.info(f"Region Setting >> Start Crawl {region_code}")
 
-    def crawl(self) -> Building:
+    def crawl(self) -> list:
         # Step 1
         url = self.building_list_url(self.region_code)
         json_response = self.send_request(url).json()
@@ -41,9 +41,9 @@ class BuildingCrawler(BaseCrawler):
 
     # Target url information
     def building_list_url(self, code: str) -> str:
-        url = f"{self.baseURL}/ajax/complexListByCortarNo?cortarNo={code}"
+        url = f"{self.naverURL}/complex/ajax/complexListByCortarNo?cortarNo={code}"
         return url
 
     def building_detail_url(self, building_id: str) -> str:
-        url = f"{self.baseURL}/info/{building_id}?tradTpCd=A1:B1:B2&ajax=y"
+        url = f"{self.naverURL}/complex/info/{building_id}?tradTpCd=A1:B1:B2&ajax=y"
         return url

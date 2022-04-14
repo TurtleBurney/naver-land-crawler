@@ -1,9 +1,10 @@
 import requests
+import time
 
 
 class BaseCrawler:
     def __init__(self):
-        self.baseURL = "https://m.land.naver.com/complex"
+        self.naverURL = "https://m.land.naver.com"
         self.header = self.setup_header()
 
     def setup_header(self) -> dict:
@@ -14,4 +15,5 @@ class BaseCrawler:
 
     def send_request(self, url: str) -> requests.Response:
         response = requests.get(url, headers=self.header, allow_redirects=False)
+        time.sleep(2)
         return response
