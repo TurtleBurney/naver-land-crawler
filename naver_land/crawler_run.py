@@ -45,7 +45,7 @@ class NaverLandCrawler:
 
             sale_offers += self.crawl_sale_offer(household_code)
             logger.info(
-                f"Sale Offer of household {household.household_code} Crawled >> sale_offer_count : {len(sale_offers)}"
+                f"Sale Offer of household {household_code} Crawled >> sale_offer_count : {len(sale_offers)}"
             )
             time.sleep(3)
 
