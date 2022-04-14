@@ -69,19 +69,18 @@ class NaverLandCrawler:
         building_code = building.building_code
 
         crawler.set_building_info(region_code, building_code)
-        households_in_building = []
+        households = []
 
         for sale_type in sale_type_enum:
             crawler.set_sale_type(sale_type)
-            household_page_num = building.get_household_page_num(sale_type)
+            total_pages = building.get_household_page_num(sale_type)
 
-            for page_idx in range(household_page_num):
+            for page_idx in range(total_pages):
                 page_index = page_idx + 1
 
-                household_list = crawler.crawl(page_index)
-                households_in_building += household_list
+                households += crawler.crawl(page_index)
 
-        return households_in_building
+        return households
 
     def crawl_sale_offer(self, household_code: str) -> list:
         crawler = self.sale_offer_crawler
